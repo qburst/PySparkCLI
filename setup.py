@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import setuptools
 
 with open("README.md", "r") as fh:
@@ -13,3 +14,19 @@ setuptools.setup(
       license='MIT',
       packages=['pysparkcli'],
       zip_safe=False)
+=======
+from setuptools import setup
+
+setup(
+    name="pysparkcli",
+    version='0.0.1',
+    py_modules=['pysparkcli'],
+    install_requires=[
+        'pyspark',
+    ],
+    entry_points='''
+        [console_scripts]
+        pysparkcli=pysparkcli.bin.start:start
+    ''',
+    )
+>>>>>>> fbb2fe40821568fe4b8c089e16bf9c9c158add10
