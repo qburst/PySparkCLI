@@ -1,20 +1,13 @@
 #!/usr/bin/python
 import sys
 import click
-import os
 
 from pathlib import Path
+from pysparkcli.core.admin import TemplateParser
 
 @click.group()
 def start():
-	BASE_PATH = Path(__file__)
-	PROJECT_TEMPLATE_PATH = BASE_PATH.resolve(strict=True).parents[0] / "project-template" / "project_name"
-	print(PROJECT_TEMPLATE_PATH)
-	print(BASE_PATH)
-
-	print(sys.argv)
-	print("?"*40)
-	print(PROJECT_TEMPLATE_PATH.resolve())
+	pass
 
 @start.command(help="Create Project")
 @click.option("--master", help="Enter master URL", required=True)
@@ -25,8 +18,23 @@ def create(master, name, cores):
 	click.echo("\nName: {}".format(name))
 	click.echo("\nCores: {}".format(cores))
 
-	proj_path =	Path(name)
-	proj_path.mkdir()
+	BASE_PATH = Path(__file__)
+	PROJECT_TEMPLATE_PATH = BASE_PATH.resolve(strict=True).parents[1] / "project-template" / "project_name"
+	print(PROJECT_TEMPLATE_PATH)
+	print(BASE_PATH)
+
+	print(sys.argv)
+	print("?" * 40)
+	print(PROJECT_TEMPLATE_PATH.resolve())
+
+	context = {
+		"project_name": name,
+		"master_url": master,
+		"docs_version": "1.0.0"
+	}
+
+	# build the new project folder from template
+	TemplateParser().build_project(PROJECT_TEMPLATE_PATH, context, name)
 
 
 if __name__ == "__main__":

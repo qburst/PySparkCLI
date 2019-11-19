@@ -11,8 +11,8 @@ def main(sc):
 
 if __name__ == "__main__":
     # Configure Spark Application
-    conf = SparkConf().setAppName({{project_name}})
-    conf = conf.setMaster({{ master_url }})
+    conf = SparkConf().setAppName("{{project_name}}")
+    conf = conf.setMaster("{{ master_url }}")
     sc = SparkContext(conf=conf)
 
     # Execute Main functionality
