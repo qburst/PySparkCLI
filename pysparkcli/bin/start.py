@@ -30,6 +30,7 @@ def create(master, name, cores):
 	context = {
 		"project_name": name,
 		"master_url": master,
+		"cores": cores,
 		"docs_version": "1.0.0"
 	}
 
