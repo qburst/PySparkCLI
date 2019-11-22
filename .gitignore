@@ -219,3 +219,6 @@ spark-warehouse/
 
 
 # End of https://www.gitignore.io/api/linux,spark,python
+
+# Environment Folder
+pysparkenv/
