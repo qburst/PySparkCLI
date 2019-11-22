@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import sys
 import click
+import os
+
 
 from pathlib import Path
 from pysparkcli.core.admin import TemplateParser
@@ -27,7 +29,13 @@ def create(master, name, cores):
 
 	# build the new project folder from template
 	TemplateParser().build_project(PROJECT_TEMPLATE_PATH, context, name)
+	click.echo("Completed building project: {}".format(name))
 
+@start.command(help="Run Project")
+@click.option("--name", help="Enter Project Name", required=True)
+def run(name):
+	os.system("spark-submit {}/src/app.py".format(name))
+	click.echo("Started running project: {}".format(name))
 
 if __name__ == "__main__":
 	# Start the execution of command here
