@@ -12,9 +12,9 @@ def start():
 	pass
 
 @start.command(help="Create Project")
-@click.option("--master", help="Enter master URL", required=True)
-@click.option("--name", help="Enter Project Name", required=True)
-@click.option("--cores", help="Enter number of core", type=click.INT)
+@click.option("--master", "-m", help="Enter master URL", required=True)
+@click.option("--name", "-n", help="Enter Project Name", required=True)
+@click.option("--cores", "-c", help="Enter number of core", type=click.INT)
 def create(master, name, cores):
 
 	BASE_PATH = Path(__file__)
@@ -32,10 +32,10 @@ def create(master, name, cores):
 	click.echo("Completed building project: {}".format(name))
 
 @start.command(help="Run Project")
-@click.option("--name", help="Enter Project Name", required=True)
+@click.option("--name", "-n", help="Enter Project Name", required=True)
 def run(name):
-	os.system("spark-submit {}/src/app.py".format(name))
 	click.echo("Started running project: {}".format(name))
+	os.system("spark-submit {}/src/app.py".format(name))
 
 if __name__ == "__main__":
 	# Start the execution of command here
