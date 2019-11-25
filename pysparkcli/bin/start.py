@@ -23,9 +23,13 @@ def create(master, name, cores):
 	context = {
 		"project_name": name,
 		"master_url": master,
-		"cores": cores,
+		"cores": cores if cores else 2,
 		"docs_version": "1.0.0"
 	}
+
+	# add project modules to sys.path
+	PATH = Path.cwd() / (name + "/src")
+	sys.path.append(str(PATH.as_posix()))
 
 	# build the new project folder from template
 	TemplateParser().build_project(PROJECT_TEMPLATE_PATH, context, name)
@@ -34,6 +38,12 @@ def create(master, name, cores):
 @start.command(help="Run Project")
 @click.option("--name", "-n", help="Enter Project Name", required=True)
 def run(name):
+	click.echo("Started running project: {}".format(name))
+	os.system("spark-submit {}/src/app.py".format(name))
+
+@start.command(help="Run Test")
+@click.option("--test", "-t", help="Enter Test Name", required=True)
+def test(name):
 	click.echo("Started running project: {}".format(name))
 	os.system("spark-submit {}/src/app.py".format(name))
 

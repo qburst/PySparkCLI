@@ -1,14 +1,26 @@
+import os
+import shutil
+
+
 from jinja2 import Template
 from pathlib import Path
+
+from pyspark.conf import SparkConf
+from pyspark.context import SparkContext
+from pyspark.sql import SparkSession
 
 
 class TemplateParser:
     rewrite_template_suffixes = ['.py-tpl', '.py']
     project_struct = {'files': []}
+    tests_path_name = "tests"
 
     def build_project(self, path, context, name):
         for i in Path(path).iterdir():
             if i.is_dir():
+                if i.stem == self.tests_path_name:
+                    self.move_to_path(i, name + "/" + self.tests_path_name)
+                    continue
                 self.project_struct[i.stem] = {'files': []}
                 self.handle_directory(i, context, name)
             elif i.is_file():
@@ -34,3 +46,19 @@ class TemplateParser:
             new_path.mkdir(parents=True)
         with open(str(new_path) + "/" + file.stem + self.rewrite_template_suffixes[1] , 'w', encoding='utf-8') as new_file:
             new_file.write(content)
+    
+    def move_to_path(self, directory, final_path):
+        for i in Path(directory).iterdir():
+            if i.is_dir():
+                self.move_to_path(i, final_path + "/" + i.stem)
+            elif i.is_file():
+                dest_fpath = final_path + "/" + i.name
+                os.makedirs(os.path.dirname(dest_fpath), exist_ok=True)
+                shutil.copy(i.as_posix(), dest_fpath)
+
+
+class SparkBuilder:
+
+    def build_sc(self):
+        return SparkSession.builder.master("local").appName("sample")
+
