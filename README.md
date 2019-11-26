@@ -46,8 +46,9 @@ sample
     └── __init__.py
 ```
 
+## Sponsors
 
-
+[![QBurst](https://www.qburst.com/images/responsive/QBlogo.svg)](https://www.qburst.com)
 
 
 
