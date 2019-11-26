@@ -11,41 +11,46 @@ from pysparkcli.core.admin import TemplateParser
 def start():
 	pass
 
-@start.command(help="Create Project")
+@start.command()
 @click.option("--master", "-m", help="Enter master URL", required=True)
-@click.option("--name", "-n", help="Enter Project Name", required=True)
 @click.option("--cores", "-c", help="Enter number of core", type=click.INT)
-def create(master, name, cores):
-
+@click.argument('project', type=click.STRING, required=True)
+def create(master, cores, project):
+	""" Create Project: \n
+		Example:
+		pysparkcli create 'testProject' -m 'local'"""
 	BASE_PATH = Path(__file__)
 	PROJECT_TEMPLATE_PATH = BASE_PATH.resolve(strict=True).parents[1] / "project-template" / "project_name"
 
 	context = {
-		"project_name": name,
+		"project_name": project,
 		"master_url": master,
 		"cores": cores if cores else 2,
 		"docs_version": "1.0.0"
 	}
 
 	# add project modules to sys.path
-	PATH = Path.cwd() / (name + "/src")
+	PATH = Path.cwd() / (project + "/src")
 	sys.path.append(str(PATH.as_posix()))
 
 	# build the new project folder from template
-	TemplateParser().build_project(PROJECT_TEMPLATE_PATH, context, name)
-	click.echo("Completed building project: {}".format(name))
+	TemplateParser().build_project(PROJECT_TEMPLATE_PATH, context, project)
+	click.echo("Completed building project: {}".format(project))
 
-@start.command(help="Run Project")
-@click.option("--name", "-n", help="Enter Project Name", required=True)
-def run(name):
-	click.echo("Started running project: {}".format(name))
-	os.system("spark-submit {}/src/app.py".format(name))
+@start.command()
+@click.argument('project', type=click.STRING, required=True)
+def run(project):
+	""" Run Project: \n
+		Example:
+		pysparkcli run 'testProject'"""
+	click.echo("Started running project: {}".format(project))
+	os.system("spark-submit {}/src/app.py".format(project))
 
 @start.command(help="Run Test")
-@click.option("--test", "-t", help="Enter Test Name", required=True)
-def test(name):
-	click.echo("Started running project: {}".format(name))
-	os.system("spark-submit {}/src/app.py".format(name))
+@click.argument('project', type=click.STRING, required=True)
+def test(project):
+	click.echo("Started running project: {}".format(project))
+	os.system("spark-submit {}/src/app.py".format(project))
 
 if __name__ == "__main__":
 	# Start the execution of command here

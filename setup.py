@@ -12,6 +12,8 @@ setup(
     py_modules=['pysparkcli', 'core', 'bin'],
     install_requires=[
         'pyspark',
+        'click',
+        'jinja2',
     ],
     entry_points='''
         [console_scripts]
