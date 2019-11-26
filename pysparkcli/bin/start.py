@@ -12,7 +12,7 @@ def start():
 	pass
 
 @start.command()
-@click.option("--master", "-m", help="Enter master URL", required=True)
+@click.option("--master", "-m", help="Enter master URL")
 @click.option("--cores", "-c", help="Enter number of core", type=click.INT)
 @click.argument('project', type=click.STRING, required=True)
 def create(master, cores, project):
@@ -24,7 +24,7 @@ def create(master, cores, project):
 
 	context = {
 		"project_name": project,
-		"master_url": master,
+		"master_url": master if master else 'local[*]',
 		"cores": cores if cores else 2,
 		"docs_version": "1.0.0"
 	}
