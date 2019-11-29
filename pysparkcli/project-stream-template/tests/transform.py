@@ -4,10 +4,10 @@ def transformfunc(dataRDD):
     user = None
     for result in results:
         #print("main", result)
-        if result['favorite_count'] != None:
-            print("result", result['favorite_count'])
-            if result['favorite_count'] > favCount:
-                favCount = result['favorite_count']
+        if result["user"]["followers_count"]:
+            if result["user"]['followers_count'] > favCount:
+                favCount = result["user"]['followers_count']
+                print(favCount)
                 user = result["user"]["name"]
-    return user
+    return {"user":user, "favcount":favCount}
 
