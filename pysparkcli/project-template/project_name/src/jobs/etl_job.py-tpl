@@ -32,11 +32,14 @@ functions, such that the key Transform steps can be covered by tests
 and jobs or called from within another environment (e.g. a Jupyter or
 Zeppelin notebook).
 """
+import os
+import json
+
 
 from pyspark.sql import Row
 from pyspark.sql.functions import col, concat_ws, lit
 
-from dependencies.spark import start_spark
+from pysparkcli.core.admin import SparkBuilder
 
 
 def main():
@@ -45,20 +48,21 @@ def main():
     :return: None
     """
     # start Spark application and get Spark session, logger and config
-    spark, log, config = start_spark(
-        app_name='my_etl_job',
-        files=['configs/etl_config.json'])
+    spark = SparkBuilder("test").build_sc()
+    config = {}
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "../src/configs/etl_config.json"), "r") as f:
+        config = json.loads(f.read())
 
     # log that main ETL job is starting
-    log.warn('etl_job is up-and-running')
+    print('etl_job is up-and-running')
 
     # execute ETL pipeline
     data = extract_data(spark)
-    data_transformed = transform_data(data, config['steps_per_floor'])
+    data_transformed = transform_data(data, config.get('steps_per_floor', 12))
     load_data(data_transformed)
 
     # log the success and terminate Spark application
-    log.warn('test_etl_job is finished')
+    print('test_etl_job is finished')
     spark.stop()
     return None
 

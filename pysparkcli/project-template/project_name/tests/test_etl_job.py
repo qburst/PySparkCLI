@@ -7,8 +7,14 @@ job defined in etl_job.py. It makes use of a local version of PySpark
 that is bundled with the PySpark package.
 """
 import unittest
-
 import json
+import sys
+import os
+
+
+# Add to system path for pysparkcli modules
+SRC_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../src/')
+sys.path.append(os.path.join(SRC_PATH))
 
 from pyspark.sql.functions import mean
 
@@ -23,9 +29,10 @@ class SparkETLTests(unittest.TestCase):
     def setUp(self):
         """Start Spark, define config and path to test data
         """
-        self.config = json.loads("""{"steps_per_floor": 21}""")
-        self.spark = SparkBuilder().build_sc()
-        self.test_data_path = 'tests/test_data/'
+        with open(SRC_PATH + "configs/etl_config.json", "r") as f:
+            self.config = json.loads(f.read())
+        self.spark = SparkBuilder("test").build_sc()
+        self.test_data_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../tests/test_data/')
 
     def tearDown(self):
         """Stop Spark
