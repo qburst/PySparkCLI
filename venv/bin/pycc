@@ -1,0 +1,3 @@
+#!/home/qburst/Desktop/PySpark/PySparkCLI/venv/bin/python
+from numba.pycc import main
+main()
