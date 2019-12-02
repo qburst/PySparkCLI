@@ -1,0 +1,7 @@
+site_name: PySparkCLI Docs
+site_description: This documentation contains the step-by-step procedure to create a PySpark project using a CLI. 
+site_author: Jino Jossy
+remote_branch: master
+docs_dir: site_docs/
+site_dir: docs/
+
