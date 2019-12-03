@@ -21,9 +21,9 @@ def create(master, cores, project):
 		pysparkcli create 'testProject' -m 'local'"""
 	BASE_PATH = Path(__file__)
 	PROJECT_TEMPLATE_PATH = BASE_PATH.resolve(strict=True).parents[1] / "project-template" / "project_name"
-
+	
 	context = {
-		"project_name": project,
+		"sample": project,
 		"master_url": master if master else 'local[*]',
 		"cores": cores if cores else 2,
 		"docs_version": "1.0.0"
