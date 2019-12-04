@@ -1,0 +1,3 @@
+include pysparkcli/project-template/project_name/src/configs/*.*
+include pysparkcli/project-template/project_name/src/jobs/*.*
+include pysparkcli/project-template/project_name/src/settings/*.*
