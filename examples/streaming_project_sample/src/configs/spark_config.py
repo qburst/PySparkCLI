@@ -1,5 +1,6 @@
 
-
+from pyspark import SparkContext
+from pyspark.streaming import StreamingContext
 
 # SparkContext(“local[1]”) would not work with Streaming, 2 threads are required
 sc = SparkContext("local[2]", "Twitter Demo")

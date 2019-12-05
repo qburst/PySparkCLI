@@ -11,13 +11,13 @@ class SparkStreamTest(unittest.TestCase):
         self.dataRDD = spark.read.json('./test-data/inputs/data.json').rdd
 
     def test_transform_data(self):
-        result = transform.transformfunc(self.dataRDD)
+        result = transformation_job.transformfunc(self.dataRDD)
         print(result)
 
 
 if __name__ == '__main__':
     import sys
     sys.path.append(path.join(path.dirname(__file__), '..'))
-    from src import transform
+    from src.jobs import transformation_job
     unittest.main()
 
