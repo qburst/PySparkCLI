@@ -37,14 +37,13 @@ class TemplateParser:
                 self.build_template(context, i, final_path + "/" + directory.stem)
 
     def build_template(self, context, file, final_path):
-        with file.open(encoding='utf-8') as f:
-            template = Template(f)
-            content = template.render(context)
-            new_path = Path.cwd() / final_path
-            if not new_path.exists():
-                new_path.mkdir(parents=True)
-            with open(str(new_path) + "/" + file.stem + self.rewrite_template_suffixes[1] , 'w', encoding='utf-8') as new_file:
-                new_file.write(content)
+        template = Template(file.read_text('utf-8'))
+        content = template.render(context)
+        new_path = Path.cwd() / final_path
+        if not new_path.exists():
+            new_path.mkdir(parents=True)
+        with open(str(new_path) + "/" + file.stem + self.rewrite_template_suffixes[1] , 'w', encoding='utf-8') as new_file:
+            new_file.write(content)
     
     def move_to_path(self, directory, final_path):
         for i in Path(directory).iterdir():

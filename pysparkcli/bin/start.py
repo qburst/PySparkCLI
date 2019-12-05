@@ -46,11 +46,11 @@ def run(project):
 	click.echo("Started running project: {}".format(project))
 	os.system("spark-submit {}/src/app.py".format(project))
 
-@start.command(help="Run Test")
-@click.argument('project', type=click.STRING, required=True)
-def test(project):
-	click.echo("Started running project: {}".format(project))
-	os.system("spark-submit {}/src/app.py".format(project))
+# @start.command(help="Run Test")
+# @click.argument('project', type=click.STRING, required=True)
+# def test(project):
+# 	click.echo("Started running project: {}".format(project))
+# 	os.system("spark-submit {}/src/app.py".format(project))
 
 if __name__ == "__main__":
 	# Start the execution of command here
