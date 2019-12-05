@@ -20,7 +20,7 @@ def create(master, cores, project):
 		Example:
 		pysparkcli create 'testProject' -m 'local'"""
 	BASE_PATH = Path(__file__)
-	PROJECT_TEMPLATE_PATH = BASE_PATH.resolve(strict=True).parents[1] / "project-template" / "project_name"
+	PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / "project_name"
 	
 	context = {
 		"sample": project,

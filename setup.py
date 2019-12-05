@@ -5,9 +5,9 @@ import setuptools
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
-setuptools.setup(  
+setuptools.setup(
     name="pysparkcli",
-    version='0.0.2',
+    version='0.0.3',
     description='PySpark Project Buiding Tool',
     url='https://github.com/qburst/PySparkCLI',
     author='Jino Jossy',
@@ -16,11 +16,12 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     license='MIT',
     packages=setuptools.find_packages(),
+    include_package_data=True,
     install_requires=[
         'pyspark',
         'click',
         'jinja2',
-        'pathlib'
+        'pathlib==1.0.1'
     ],
     entry_points='''
         [console_scripts]
