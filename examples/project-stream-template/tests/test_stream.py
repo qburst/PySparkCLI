@@ -1,6 +1,6 @@
 import unittest
 from pyspark.sql import SparkSession
-import transform
+from os import path
 import json
 
 
@@ -16,4 +16,8 @@ class SparkStreamTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    import sys
+    sys.path.append(path.join(path.dirname(__file__), '..'))
+    from src import transform
     unittest.main()
+
