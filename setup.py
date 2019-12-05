@@ -1,13 +1,14 @@
 import os
 import setuptools
 
+version = __import__('pysparkcli').__version__
 
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
 setuptools.setup(
     name="pysparkcli",
-    version='0.0.3',
+    version=version,
     description='PySpark Project Buiding Tool',
     url='https://github.com/qburst/PySparkCLI',
     author='Jino Jossy',
@@ -21,7 +22,7 @@ setuptools.setup(
         'pyspark',
         'click',
         'jinja2',
-        'pathlib==1.0.1'
+        'pathlib>1.0.0'
     ],
     entry_points='''
         [console_scripts]
