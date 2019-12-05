@@ -8,11 +8,11 @@ PySpark is the Python API for Spark.
 
 ## Installation Steps:
     
-    git clone https://github.com/jino-qb/pysparkcli.git
+    git clone https://github.com/qburst/PySparkCLI.git
 
-    cd pysparkcli
+    cd PySparkCLI
 
-    pip install .
+    pip3 install -e . --user
     
 ## Create a PySpark Project
     
@@ -33,18 +33,34 @@ The basic project structure is as follows:
 sample
 ├── __init__.py
 ├── src
-│   ├── app.py
-│   ├── configs
-│   │   └── __init__.py
-│   ├── __init__.py
-│   └── settings
-│       ├── default.py
-│       ├── __init__.py
-│       ├── local.py
-│       └── production.py
+│   ├── app.py
+│   ├── configs
+│   │   ├── etl_config.json
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── jobs
+│   │   ├── etl_job.py
+│   │   └── __init__.py
+│   └── settings
+│       ├── default.py
+│       ├── __init__.py
+│       ├── local.py
+│       └── production.py
 └── tests
-    └── __init__.py
+    ├── __init__.py
+    ├── test_data
+    │   ├── employees
+    │   │   └── part-00000-9abf32a3-db43-42e1-9639-363ef11c0d1c-c000.snappy.parquet
+    │   └── employees_report
+    │       └── part-00000-4a609ba3-0404-48bb-bb22-2fec3e2f1e68-c000.snappy.parquet
+    └── test_etl_job.py
+
+8 directories, 15 files
 ```
+
+## Contribution Guidelines
+
+Check out [here](https://github.com/qburst/PySparkCLI/blob/master/CONTRIBUTING.md) for our contribution guidelines.
 
 ## Sponsors
 

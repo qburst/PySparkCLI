@@ -15,18 +15,11 @@ from pyspark.streaming import StreamingContext
 # Our filter function:
 def filter_tweets(tweet):
     json_tweet = json.loads(tweet)
-
-    # print("%"*40)
-    # print(json_tweet.get('lang'))
-    # print("&"*40)
-    count = 1;
+    print("%"*40)
+    print(json_tweet.get('lang'))
+    print("&"*40)
     if json_tweet.get('lang'):  # When the lang key was not present it caused issues
         if json_tweet['lang'] == 'en':
-            if count == 1:
-                print("start--------------------------------------------------")
-                print(json_tweet)
-                print("end--------------------------------------------------")
-                count += 1
             return True  # filter() requires a Boolean value
     return False
 

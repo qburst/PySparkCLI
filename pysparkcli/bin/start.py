@@ -20,10 +20,10 @@ def create(master, cores, project):
 		Example:
 		pysparkcli create 'testProject' -m 'local'"""
 	BASE_PATH = Path(__file__)
-	PROJECT_TEMPLATE_PATH = BASE_PATH.resolve(strict=True).parents[1] / "project-template" / "project_name"
-
+	PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / "project_name"
+	
 	context = {
-		"project_name": project,
+		"sample": project,
 		"master_url": master if master else 'local[*]',
 		"cores": cores if cores else 2,
 		"docs_version": "1.0.0"
@@ -46,11 +46,11 @@ def run(project):
 	click.echo("Started running project: {}".format(project))
 	os.system("spark-submit {}/src/app.py".format(project))
 
-@start.command(help="Run Test")
-@click.argument('project', type=click.STRING, required=True)
-def test(project):
-	click.echo("Started running project: {}".format(project))
-	os.system("spark-submit {}/src/app.py".format(project))
+# @start.command(help="Run Test")
+# @click.argument('project', type=click.STRING, required=True)
+# def test(project):
+# 	click.echo("Started running project: {}".format(project))
+# 	os.system("spark-submit {}/src/app.py".format(project))
 
 if __name__ == "__main__":
 	# Start the execution of command here
