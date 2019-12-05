@@ -12,7 +12,7 @@ PySpark is the Python API for Spark.
 
     cd PySparkCLI
 
-    sudo pip3 install -e .
+    pip3 install -e . --user
     
 ## Create a PySpark Project
     

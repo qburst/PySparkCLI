@@ -1,4 +1,10 @@
+import os
+
+
 from setuptools import setup, find_namespace_packages
+
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
+    README = readme.read()
 
 setup(
     name="pysparkcli",
@@ -8,6 +14,8 @@ setup(
     url='https://github.com/qburst/PySparkCLI',
     author='Jino Jossy',
     author_email='jinojossy93@gmail.com',
+    long_description=README,
+    long_description_content_type="text/markdown",
     license='MIT',
     py_modules=['pysparkcli', 'core', 'bin'],
     install_requires=[
