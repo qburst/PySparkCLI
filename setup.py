@@ -1,19 +1,28 @@
-from setuptools import setup, find_namespace_packages
+import os
+import setuptools
 
-setup(
+version = __import__('pysparkcli').__version__
+
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
+    README = readme.read()
+
+setuptools.setup(
     name="pysparkcli",
-    packages=find_namespace_packages(include=['core.*', 'bin.*']),
-    version='0.0.1',
+    version=version,
     description='PySpark Project Buiding Tool',
     url='https://github.com/qburst/PySparkCLI',
     author='Jino Jossy',
     author_email='jinojossy93@gmail.com',
+    long_description=README,
+    long_description_content_type="text/markdown",
     license='MIT',
-    py_modules=['pysparkcli', 'core', 'bin'],
+    packages=setuptools.find_packages(),
+    include_package_data=True,
     install_requires=[
         'pyspark',
         'click',
         'jinja2',
+        'pathlib>1.0.0'
     ],
     entry_points='''
         [console_scripts]

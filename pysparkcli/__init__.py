@@ -1,1 +1,4 @@
-__version__ = (0,0,1)
+# __init__.py
+
+# Version of the pysparkcli package
+__version__ = '0.0.5'

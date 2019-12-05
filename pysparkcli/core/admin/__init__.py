@@ -5,8 +5,6 @@ import shutil
 from jinja2 import Template
 from pathlib import Path
 
-from pyspark.conf import SparkConf
-from pyspark.context import SparkContext
 from pyspark.sql import SparkSession
 
 
