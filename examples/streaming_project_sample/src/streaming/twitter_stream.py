@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.streaming import StreamListener
 import socket
-from ..configs import stream_source_config
-
+import sys
+from os import path
 
 class TweetsListener(StreamListener):
 
@@ -35,6 +34,8 @@ def sendData(c_socket):
 
 
 if __name__ == "__main__":
+    sys.path.append(path.join(path.dirname(__file__), '..'))
+    from configs import stream_source_config
     s = socket.socket()  # Create a socket object
     host = "localhost"  # Get local machine name
     port = 5555  # Reserve a port for your service.
