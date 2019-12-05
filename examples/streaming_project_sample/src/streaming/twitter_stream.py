@@ -1,13 +1,9 @@
-# -*- coding: utf-8 -*-
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.streaming import StreamListener
 import socket
 import sys
 from os import path
-# sys.path.append("..")
-# from ..configs import stream_source_config
-
 
 class TweetsListener(StreamListener):
 
