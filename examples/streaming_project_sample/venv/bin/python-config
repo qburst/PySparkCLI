@@ -1,4 +1,4 @@
-#!/home/qburst/PySparkCLI-2/examples/streaming_project_template/venv/bin/python
+#!/home/qburst/PySparkCLI-2/examples/streaming_project_sample/venv/bin/python
 
 import sys
 import getopt
