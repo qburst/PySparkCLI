@@ -112,7 +112,7 @@ To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()
 ## Commands
 
 * `pysparkcli create [project-name]` - Create a new project.
-    - Run the follwing code to create your project `sample`:
+    - Run the following code to create your project `sample`:
 
         `pysparkcli create --master [MASTER_URL] --name [PROJECT_NAME] --cores [NUMBER]`
 
@@ -130,7 +130,7 @@ To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()
         ```
 
 * `pysparkcli run [project-path]` - Run the project by path.
-    - Run the follwing code to run your project `sample`:
+    - Run the following code to run your project `sample`:
     
         `pysparkcli run sample`
 
@@ -141,6 +141,29 @@ To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()
         19/11/25 10:37:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using
         builtin-java classes where applicable
         Hello World!.
+        ```
+      
+* `pysparkcli test [project-path]` - Run the project by path.
+    - Run the following code to run all tests for your project `sample`:
+    
+        `pysparkcli test sample`
+        
+    - You'll see the following in your command line:
+        ```
+        Started running test cases for project: sample
+        19/12/09 14:02:13 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+        /usr/lib/python3.7/socket.py:660: ResourceWarning: unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48848), raddr=('127.0.0.1', 32857)>
+          self._sock = None
+        ResourceWarning: Enable tracemalloc to get the object allocation traceback
+        /usr/lib/python3.7/socket.py:660: ResourceWarning: unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58534), raddr=('127.0.0.1', 42687)>
+          self._sock = None
+        ResourceWarning: Enable tracemalloc to get the object allocation traceback
+        .
+        ----------------------------------------------------------------------
+        Ran 1 test in 6.041s
+        
+        OK
+
         ```
 
 ## Project layout
