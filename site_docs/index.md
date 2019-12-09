@@ -91,6 +91,9 @@ After next login you should be able to find pyspark command in path and it can b
 4. Check PySpark installation
 
 In your anaconda prompt,or any python supporting cmd, type pyspark, to enter pyspark shell. To be prepared, best to check it in the python environment from which you run jupyter notebook. You are supposed to see the following:
+
+![PySpark Shell](./static/images/pyspark_shell.jpg)
+
 pyspark_shell
 Run the following commands, the output should be [1,4,9,16].
 ```
