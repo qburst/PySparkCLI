@@ -2,3 +2,6 @@ include pysparkcli/project-template/project_name/src/configs/*.*
 include pysparkcli/project-template/project_name/src/jobs/*.*
 include pysparkcli/project-template/project_name/src/settings/*.*
 include pysparkcli/project-template/project_name/src/*.*
+include pysparkcli/project-template/project_name/tests/*.*
+include pysparkcli/project-template/project_name/tests/test_data/employees/*.*
+include pysparkcli/project-template/project_name/tests/test_data/employees_report/*.*
