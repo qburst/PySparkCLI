@@ -135,8 +135,9 @@ export PATH=&quot;$SPARK_HOME/bin:$PATH&quot;
 <code>source ~/.bash_profile</code></p>
 <p>After next login you should be able to find pyspark command in path and it can be accessed from any directory.
 4. Check PySpark installation</p>
-<p>In your anaconda prompt,or any python supporting cmd, type pyspark, to enter pyspark shell. To be prepared, best to check it in the python environment from which you run jupyter notebook. You are supposed to see the following:
-pyspark_shell
+<p>In your anaconda prompt,or any python supporting cmd, type pyspark, to enter pyspark shell. To be prepared, best to check it in the python environment from which you run jupyter notebook. You are supposed to see the following:</p>
+<p><img alt="PySpark Shell" src="static/images/pyspark_shell.jpg" /></p>
+<p>pyspark_shell
 Run the following commands, the output should be [1,4,9,16].</p>
 <pre><code>$ pyspark 
 &gt;&gt;&gt; nums = sc.parallelize([1,2,3,4]) 
@@ -156,7 +157,7 @@ Run the following commands, this should open up teh pyspark shell.
 <p><code>pysparkcli create [project-name]</code> - Create a new project.</p>
 <ul>
 <li>
-<p>Run the follwing code to create your project <code>sample</code>:</p>
+<p>Run the following code to create your project <code>sample</code>:</p>
 <p><code>pysparkcli create --master [MASTER_URL] --name [PROJECT_NAME] --cores [NUMBER]</code></p>
 <ul>
 <li>master: master is the URL of the cluster it connects to. You can also use -m instead of --master.</li>
@@ -177,7 +178,7 @@ Hello World!.</code></p>
 <p><code>pysparkcli run [project-path]</code> - Run the project by path.</p>
 <ul>
 <li>
-<p>Run the follwing code to run your project <code>sample</code>:</p>
+<p>Run the following code to run your project <code>sample</code>:</p>
 <p><code>pysparkcli run sample</code></p>
 </li>
 <li>
@@ -189,31 +190,57 @@ Hello World!.</code></p>
 </li>
 </ul>
 </li>
+<li>
+<p><code>pysparkcli test [project-path]</code> - Run the project by path.</p>
+<ul>
+<li>
+<p>Run the following code to run all tests for your project <code>sample</code>:</p>
+<p><code>pysparkcli test sample</code></p>
+</li>
+<li>
+<p>You'll see the following in your command line:
+    ```
+    Started running test cases for project: sample
+    19/12/09 14:02:13 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+    /usr/lib/python3.7/socket.py:660: ResourceWarning: unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48848), raddr=('127.0.0.1', 32857)>
+      self._sock = None
+    ResourceWarning: Enable tracemalloc to get the object allocation traceback
+    /usr/lib/python3.7/socket.py:660: ResourceWarning: unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58534), raddr=('127.0.0.1', 42687)>
+      self._sock = None
+    ResourceWarning: Enable tracemalloc to get the object allocation traceback
+    .
+    ----------------------------------------------------------------------
+    Ran 1 test in 6.041s</p>
+<p>OK</p>
+<p>```</p>
+</li>
+</ul>
+</li>
 </ul>
 <h2 id="project-layout">Project layout</h2>
 <pre><code>hello-world/
 ├── __init__.py
 ├── src
-│   ├── app.py
-│   ├── configs
-│   │   ├── etl_config.py
-│   │   └── __init__.py
-│   ├── __init__.py
-│   ├── jobs
-│   │   ├── etl_job.py
-│   │   └── __init__.py
-│   └── settings
-│       ├── default.py
-│       ├── __init__.py
-│       ├── local.py
-│       └── production.py
+│   ├── app.py
+│   ├── configs
+│   │   ├── etl_config.py
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── jobs
+│   │   ├── etl_job.py
+│   │   └── __init__.py
+│   └── settings
+│       ├── default.py
+│       ├── __init__.py
+│       ├── local.py
+│       └── production.py
 └── tests
     ├── __init__.py
     ├── test_data
-    │   ├── employees
-    │   │   └── part-00000-9abf32a3-db43-42e1-9639-363ef11c0d1c-c000.snappy.parquet
-    │   └── employees_report
-    │       └── part-00000-4a609ba3-0404-48bb-bb22-2fec3e2f1e68-c000.snappy.parquet
+    │   ├── employees
+    │   │   └── part-00000-9abf32a3-db43-42e1-9639-363ef11c0d1c-c000.snappy.parquet
+    │   └── employees_report
+    │       └── part-00000-4a609ba3-0404-48bb-bb22-2fec3e2f1e68-c000.snappy.parquet
     └── test_etl_job.py
 
 8 directories, 15 files
@@ -309,5 +336,5 @@ Hello World!.</code></p>
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-12-02 09:36:25
+Build Date UTC : 2019-12-10 09:46:30
 -->
