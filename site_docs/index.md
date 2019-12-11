@@ -117,7 +117,7 @@ To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()
 * `pysparkcli create [project-name]` - Create a new project.
     - Run the following code to create your project `sample`:
 
-        `pysparkcli create --master [MASTER_URL] --name [PROJECT_NAME] --cores [NUMBER]`
+        `pysparkcli create [PROJECT_NAME] --master [MASTER_URL] --cores [NUMBER]`
 
         * master: master is the URL of the cluster it connects to. You can also use -m instead of --master.
         * name : The name of your PySpark project. You can also use -n instead of --name.
