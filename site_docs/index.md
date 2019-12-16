@@ -177,6 +177,35 @@ To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()
 
         ```
 
+## FAQ
+
+Common issues while installing pysparkcli:
+
+    * pysparkcli: command not found
+        Make sure you add user’s local bin to PATH variable.
+        Add the following code in .bashrc file
+
+        # set PATH so it includes user's private bin if it exists
+        if [ -d "$HOME/.local/bin" ] ; then
+            PATH="$HOME/.local/bin:$PATH"
+        fi
+
+
+    * JAVA_HOME is not set
+        Make sure JAVA_HOME is pointing to your JDK and PYSPARK_PYTHON variable is created.
+        You can add them manually by in .bashrc file:
+        
+        Example:
+
+            export PYSPARK_PYTHON=python3
+            export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+        Save the file and run the following to update environment.
+
+            source ~/.bashrc
+
+
+
 ## Project layout
 
     hello-world/
