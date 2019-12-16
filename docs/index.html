@@ -57,7 +57,9 @@
         <li class="main "><a href="#apache-spark-and-pyspark">Apache Spark and PySpark</a></li>
         <li class="main "><a href="#writing-your-first-pyspark-app">Writing your first PySpark App</a></li>
         <li class="main "><a href="#prerequisites">Prerequisites</a></li>
+            <li><a href="#installation-steps">Installation Steps:</a></li>
             <li><a href="#commands">Commands</a></li>
+            <li><a href="#faq">FAQ</a></li>
             <li><a href="#project-layout">Project layout</a></li>
         <li class="main "><a href="#references">References</a></li>
         <li class="main "><a href="#credits">Credits</a></li>
@@ -151,6 +153,13 @@ pip install pyspark
 Run the following commands, this should open up teh pyspark shell.
 <code>pyspark</code></p>
 <p>To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()</p>
+<h2 id="installation-steps">Installation Steps:</h2>
+<pre><code>git clone https://github.com/qburst/PySparkCLI.git
+
+cd PySparkCLI
+
+pip3 install -e . --user
+</code></pre>
 <h2 id="commands">Commands</h2>
 <ul>
 <li>
@@ -217,6 +226,31 @@ Hello World!.</code></p>
 </ul>
 </li>
 </ul>
+<h2 id="faq">FAQ</h2>
+<p>Common issues while installing pysparkcli:</p>
+<pre><code>* pysparkcli: command not found
+    Make sure you add user’s local bin to PATH variable.
+    Add the following code in .bashrc file
+
+    # set PATH so it includes user's private bin if it exists
+    if [ -d "$HOME/.local/bin" ] ; then
+        PATH="$HOME/.local/bin:$PATH"
+    fi
+
+
+* JAVA_HOME is not set
+    Make sure JAVA_HOME is pointing to your JDK and PYSPARK_PYTHON variable is created.
+    You can add them manually by in .bashrc file:
+
+    Example:
+
+        export PYSPARK_PYTHON=python3
+        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+    Save the file and run the following to update environment.
+
+        source ~/.bashrc
+</code></pre>
 <h2 id="project-layout">Project layout</h2>
 <pre><code>hello-world/
 ├── __init__.py
@@ -336,5 +370,5 @@ Hello World!.</code></p>
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-12-11 05:19:57
+Build Date UTC : 2019-12-16 10:30:49
 -->
