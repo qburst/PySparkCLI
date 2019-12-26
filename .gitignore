@@ -247,4 +247,9 @@ pip-selfcheck.json
 # VS code
 .vscode
 
+# Custom Stuff
+
+**/*.env
+trying/
+
 # End of https://www.gitignore.io/api/virtualenv
