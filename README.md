@@ -24,6 +24,42 @@ PySpark is the Python API for Spark.
 ## Run a PySpark Project
     
     pysparkcli run [PROJECT_NAME]
+    
+## PySpark Project Test cases
+    
+   * Running by **Project name**
+     
+    pysparkcli test [PROJECT_NAME]
+   * Running individual test case with filename: **test_etl_job.py**
+   
+    pysparkcli test [PROJECT_NAME] -t [etl_job]
+    
+## FAQ
+
+Common issues while installing pysparkcli:
+
+    * pysparkcli: command not found
+        Make sure you add user’s local bin to PATH variable.
+        Add the following code in .bashrc file
+
+        # set PATH so it includes user's private bin if it exists
+        if [ -d "$HOME/.local/bin" ] ; then
+            PATH="$HOME/.local/bin:$PATH"
+        fi
+
+
+    * JAVA_HOME is not set
+        Make sure JAVA_HOME is pointing to your JDK and PYSPARK_PYTHON variable is created.
+        You can add them manually by in .bashrc file:
+        
+        Example:
+
+            export PYSPARK_PYTHON=python3
+            export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+        Save the file and run the following to update environment.
+
+            source ~/.bashrc
 
 ## Project Structure
 
@@ -65,7 +101,3 @@ Check out [here](https://github.com/qburst/PySparkCLI/blob/master/CONTRIBUTING.m
 ## Sponsors
 
 [![QBurst](https://www.qburst.com/images/responsive/QBlogo.svg)](https://www.qburst.com)
-
-
-
-

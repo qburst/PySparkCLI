@@ -1,12 +1,10 @@
-import os
+import os, sys
 import shutil
 
 
 from jinja2 import Template
 from pathlib import Path
 
-from pyspark.conf import SparkConf
-from pyspark.context import SparkContext
 from pyspark.sql import SparkSession
 
 
@@ -16,6 +14,9 @@ class TemplateParser:
     tests_path_name = "tests"
 
     def build_project(self, path, context, name):
+        # add project modules to sys.path
+        PATH = Path.cwd() / (name + "/src")
+        sys.path.insert(0, str(PATH.as_posix()))
         for i in Path(path).iterdir():
             if i.is_dir():
                 if i.stem == self.tests_path_name:
@@ -44,7 +45,8 @@ class TemplateParser:
         new_path = Path.cwd() / final_path
         if not new_path.exists():
             new_path.mkdir(parents=True)
-        with open(str(new_path) + "/" + file.stem + self.rewrite_template_suffixes[1] , 'w', encoding='utf-8') as new_file:
+        new_extension = self.rewrite_template_suffixes[1] if file.suffix.endswith("-tpl") else file.suffix
+        with open(str(new_path) + "/" + file.stem + new_extension , 'w', encoding='utf-8') as new_file:
             new_file.write(content)
     
     def move_to_path(self, directory, final_path):
@@ -57,8 +59,11 @@ class TemplateParser:
                 shutil.copy(i.as_posix(), dest_fpath)
 
 
-class SparkBuilder:
+class SparkBuilder():
+
+    def __init__(self, name):
+        self.name = name
 
     def build_sc(self):
-        return SparkSession.builder.master("local").appName("sample")
+        return SparkSession.builder.master("local").appName("sample").getOrCreate()
 
