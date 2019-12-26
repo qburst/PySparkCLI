@@ -4,6 +4,7 @@ import os
 
 
 from pathlib import Path
+from subprocess import call
 from pysparkcli.core.admin import TemplateParser
 
 @click.group()
@@ -12,24 +13,30 @@ def start():
 
 @start.command()
 @click.option("--master", "-m", help="Enter master URL")
+@click.option("--project_type", "-t", help="Enter type of project", type=click.Choice(['default', 'streaming'], case_sensitive=False))
 @click.option("--cores", "-c", help="Enter number of core", type=click.INT)
 @click.argument('project', type=click.STRING, required=True)
-def create(master, cores, project):
+def create(master, cores, project, project_type):
 	""" Create Project: \n
 		Example:
 		pysparkcli create 'testProject' -m 'local'"""
 	BASE_PATH = Path(__file__)
-	PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / "project_name"
-	
+	print(project_type)
+	if project_type:
+		PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / project_type / "project_name"
+	else:
+		PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / "default" / "project_name"
+
+	final_proj_name = project_type + "_" + project if project_type else project
 	context = {
-		"sample": project,
+		"project_name": final_proj_name,
 		"master_url": master if master else 'local[*]',
 		"cores": cores if cores else 2,
 		"docs_version": "1.0.0"
 	}
 	
 	# build the new project folder from template
-	TemplateParser().build_project(PROJECT_TEMPLATE_PATH, context, project)
+	TemplateParser().build_project(PROJECT_TEMPLATE_PATH, context, final_proj_name)
 	click.echo("Completed building project: {}".format(project))
 
 @start.command()
@@ -39,7 +46,14 @@ def run(project):
 		Example:
 		pysparkcli run 'testProject'"""
 	click.echo("Started running project: {}".format(project))
-	os.system("spark-submit {}/src/app.py".format(project))
+	if project.startswith("streaming_"):
+		os.system("virtualenv --python=/usr/bin/python3.7 {}/{}.env".format(project, project[10:]))
+		call(["source", "{}/{}.env/bin/activate".format(project, project[10:])])
+		os.system("pip install -r {}/requirements.txt".format(project))
+		os.system("python {}/src/streaming/twitter_stream.py".format(project))
+		os.system("python {}/src/streaming/spark_stream.py".format(project))
+	else:
+		os.system("spark-submit {}/src/app.py".format(project))
 
 @start.command(help="Run Test")
 @click.option("--test", "-t", help="Test case to Run", type=click.STRING)
