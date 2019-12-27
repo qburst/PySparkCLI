@@ -167,19 +167,16 @@ pip3 install -e . --user
 <ul>
 <li>
 <p>Run the following code to create your project <code>sample</code>:</p>
-<p><code>pysparkcli create [PROJECT_NAME] --master [MASTER_URL] --cores [NUMBER]</code></p>
+<p><code>pysparkcli create sample -m local[*] -c 2 -t default</code></p>
 <ul>
 <li>master: master is the URL of the cluster it connects to. You can also use -m instead of --master.</li>
-<li>name : The name of your PySpark project. You can also use -n instead of --name.</li>
+<li>project_type: project_type is the type of the project you want to create like default, streaming etc. You can also use -t instead of --project_type.</li>
 <li>cores : This controls the number of parallel tasks an executor can run. You can also use -c instead of --cores.</li>
 </ul>
 </li>
 <li>
 <p>You'll see the following in your command line:</p>
-<p><code>Started running project: sample/
-19/11/25 10:37:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using
-builtin-java classes where applicable
-Hello World!.</code></p>
+<p><code>Completed building project: sample</code></p>
 </li>
 </ul>
 </li>
@@ -188,7 +185,10 @@ Hello World!.</code></p>
 <ul>
 <li>
 <p>Run the following code to run your project <code>sample</code>:</p>
-<p><code>pysparkcli run sample</code></p>
+<p><code>bash
+virtualenv --python=/usr/bin/python3.7 sample.env
+source sample.env/bin/activate
+pysparkcli run sample</code></p>
 </li>
 <li>
 <p>You'll see the following in your command line:</p>
@@ -370,5 +370,5 @@ Hello World!.</code></p>
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-12-16 10:30:49
+Build Date UTC : 2019-12-26 17:19:21
 -->
