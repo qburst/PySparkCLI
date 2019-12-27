@@ -93,7 +93,7 @@ sample
 
 8 directories, 15 files
 ```
-## Pysparkcli Demo
+## PySparkCLI Demo
 
 [![PySparkCLI Demo](https://img.youtube.com/vi/wuoBKJYSfTE/0.jpg)](https://www.youtube.com/watch?v=wuoBKJYSfTE)
 
