@@ -47,13 +47,20 @@ def run(project):
 		pysparkcli run 'testProject'"""
 	click.echo("Started running project: {}".format(project))
 	if project.startswith("streaming_"):
-		os.system("virtualenv --python=/usr/bin/python3.7 {}/{}.env".format(project, project[10:]))
-		call(["source", "{}/{}.env/bin/activate".format(project, project[10:])])
 		os.system("pip install -r {}/requirements.txt".format(project))
-		os.system("python {}/src/streaming/twitter_stream.py".format(project))
 		os.system("python {}/src/streaming/spark_stream.py".format(project))
 	else:
 		os.system("spark-submit {}/src/app.py".format(project))
+
+@start.command()
+@click.argument('project', type=click.STRING, required=True)
+def stream(project):
+	""" Run Project: \n
+		Example:
+		pysparkcli stream 'testProject'"""
+	click.echo("Started running project: {}".format(project))
+	os.system("pip install -r {}/requirements.txt".format(project))
+	os.system("python {}/src/streaming/twitter_stream.py".format(project))
 
 @start.command(help="Run Test")
 @click.option("--test", "-t", help="Test case to Run", type=click.STRING)
