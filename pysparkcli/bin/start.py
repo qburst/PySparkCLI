@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from subprocess import call
 from pysparkcli.core.admin import TemplateParser
+from pysparkcli import __version__
 
 @click.group()
 def start():
@@ -32,7 +33,7 @@ def create(master, cores, project, project_type):
 		"project_name": final_proj_name,
 		"master_url": master if master else 'local[*]',
 		"cores": cores if cores else 2,
-		"docs_version": "1.0.0"
+		"docs_version": __version__
 	}
 	
 	# build the new project folder from template
@@ -48,19 +49,20 @@ def run(project):
 	click.echo("Started running project: {}".format(project))
 	if project.startswith("streaming_"):
 		os.system("pip install -r {}/requirements.txt".format(project))
-		os.system("python {}/src/streaming/spark_stream.py".format(project))
+		os.system("python {}/src/app.py".format(project))
 	else:
 		os.system("spark-submit {}/src/app.py".format(project))
 
 @start.command()
 @click.argument('project', type=click.STRING, required=True)
-def stream(project):
-	""" Run Project: \n
+@click.argument('path', type=click.STRING, required=True)
+def stream(project, path):
+	""" Start Data Stream: \n
 		Example:
-		pysparkcli stream 'testProject'"""
+		pysparkcli stream 'testProject' 'twitter_stream'"""
 	click.echo("Started running project: {}".format(project))
 	os.system("pip install -r {}/requirements.txt".format(project))
-	os.system("python {}/src/streaming/twitter_stream.py".format(project))
+	os.system("python {}/src/streaming/{}.py".format(project, path))
 
 @start.command(help="Run Test")
 @click.option("--test", "-t", help="Test case to Run", type=click.STRING)

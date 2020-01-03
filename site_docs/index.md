@@ -1,4 +1,4 @@
-# Welcome to PySparkCLI Documentation
+# Welcome to PySpark CLI Documentation
 
 This documentation contains the step-by-step procedure to create a PySpark project using a CLI. Please visit PySparkCLI [here](https://github.com/qburst/PySparkCLI).
 
@@ -112,7 +112,7 @@ Run the following commands, this should open up teh pyspark shell.
                     
 To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()
 
-## Installation Steps:
+## Installation Steps
     
     git clone https://github.com/qburst/PySparkCLI.git
 
