@@ -60,6 +60,7 @@ def main():
     data = extract_data(spark)
     data_transformed = transform_data(data, config.get('steps_per_floor', 12))
     load_data(data_transformed)
+    load_data_jdbc(data_transformed)
 
     # log the success and terminate Spark application
     print('test_etl_job is finished')
@@ -113,6 +114,18 @@ def load_data(df):
      .write
      .csv('loaded_data', mode='overwrite', header=True))
     return None
+
+
+def load_data_jdbc(df):
+    """Collect data locally anda write to JDBC"""
+    url = "jdbc:postgresql://localhost/streamdb"
+    properties = {
+        "driver": "org.postgresql.Driver",
+        "user": "postgres",
+        "password": "Welcome1"
+    }
+    mode="append"
+    df.write.jdbc(url=url, table="employee", mode=mode, properties=properties)
 
 
 def create_test_data(spark, config):
