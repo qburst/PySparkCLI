@@ -69,7 +69,7 @@
     
         <ul>
         
-            <li><a class="toctree-l3" href="#installation-steps">Installation Steps:</a></li>
+            <li><a class="toctree-l3" href="#installation-steps">Installation Steps</a></li>
         
             <li><a class="toctree-l3" href="#commands">Commands</a></li>
         
@@ -207,7 +207,7 @@ pip install pyspark
 Run the following commands, this should open up teh pyspark shell.
 <code>pyspark</code></p>
 <p>To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()</p>
-<h2 id="installation-steps">Installation Steps:</h2>
+<h2 id="installation-steps">Installation Steps</h2>
 <pre><code>git clone https://github.com/qburst/PySparkCLI.git
 
 cd PySparkCLI
@@ -249,7 +249,28 @@ Hello World!.</code></p>
 <p><code>Started running project: sample/
 19/11/25 10:37:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using
 builtin-java classes where applicable
-Hello World!.</code></p>
+Hello World!.</code>
+* <code>pysparkcli stream [project-path] [stream-file-path]</code> - Initiate the stream.
+    - Run the following code to  stream data for project <code>sample</code> using <code>twitter_stream</code> file:</p>
+<p><code>pysparkcli stream sample twitter_stream</code></p>
+</li>
+<li>
+<p>You'll see the following in your command line:</p>
+<p><code>(streaming_project_env) ➜  checking git:(docs_develop) ✗ pysparkcli stream test twitter_stream
+Started streaming of project: test
+Requirement already satisfied: certifi==2019.11.28 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 1))
+Requirement already satisfied: chardet==3.0.4 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 2))
+Requirement already satisfied: idna==2.8 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 3))
+Requirement already satisfied: oauthlib==3.1.0 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 4))
+Requirement already satisfied: py4j==0.10.7 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 5))
+Requirement already satisfied: PySocks==1.7.1 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 6))
+Requirement already satisfied: pyspark==2.4.4 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 7))
+Requirement already satisfied: requests==2.22.0 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 8))
+Requirement already satisfied: requests-oauthlib==1.3.0 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 9))
+Requirement already satisfied: six==1.13.0 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 10))
+Requirement already satisfied: tweepy==3.8.0 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 11))
+Requirement already satisfied: urllib3==1.25.7 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 12))
+Listening on port: 5555</code></p>
 </li>
 </ul>
 </li>
@@ -261,21 +282,21 @@ Hello World!.</code></p>
 <p><code>pysparkcli test sample</code></p>
 </li>
 <li>
-<p>You'll see the following in your command line:
-    ```
-    Started running test cases for project: sample
-    19/12/09 14:02:13 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-    /usr/lib/python3.7/socket.py:660: ResourceWarning: unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48848), raddr=('127.0.0.1', 32857)>
-      self._sock = None
-    ResourceWarning: Enable tracemalloc to get the object allocation traceback
-    /usr/lib/python3.7/socket.py:660: ResourceWarning: unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58534), raddr=('127.0.0.1', 42687)>
-      self._sock = None
-    ResourceWarning: Enable tracemalloc to get the object allocation traceback
-    .
-    ----------------------------------------------------------------------
-    Ran 1 test in 6.041s</p>
-<p>OK</p>
-<p>```</p>
+<p>You'll see the following in your command line:</p>
+<p>```
+Started running test cases for project: sample
+19/12/09 14:02:13 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+/usr/lib/python3.7/socket.py:660: ResourceWarning: unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48848), raddr=('127.0.0.1', 32857)>
+    self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.7/socket.py:660: ResourceWarning: unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58534), raddr=('127.0.0.1', 42687)>
+    self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.</p>
+<hr />
+<p>Ran 1 test in 6.041s</p>
+<p>OK
+```</p>
 </li>
 </ul>
 </li>
@@ -381,5 +402,5 @@ Hello World!.</code></p>
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2020-01-20 07:25:51
+Build Date UTC : 2020-01-20 07:39:48
 -->
