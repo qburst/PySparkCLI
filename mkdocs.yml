@@ -4,4 +4,8 @@ site_author: Jino Jossy
 remote_branch: master
 docs_dir: site_docs/
 site_dir: docs/
-
+theme: readthedocs
+plugins:
+  - search
+  - mkdocs-versioning:
+      version: 0.0.9
