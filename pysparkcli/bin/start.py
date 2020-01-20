@@ -5,6 +5,7 @@ import os
 
 from pathlib import Path
 from pysparkcli.core.admin import TemplateParser
+from pysparkcli import __version__
 
 @click.group()
 def start():
@@ -12,20 +13,25 @@ def start():
 
 @start.command()
 @click.option("--master", "-m", help="Enter master URL")
+@click.option("--project_type", "-t", help="Enter type of project", type=click.Choice(['default', 'streaming'], case_sensitive=False))
 @click.option("--cores", "-c", help="Enter number of core", type=click.INT)
 @click.argument('project', type=click.STRING, required=True)
-def create(master, cores, project):
+def create(master, cores, project, project_type):
 	""" Create Project: \n
 		Example:
 		pysparkcli create 'testProject' -m 'local'"""
 	BASE_PATH = Path(__file__)
-	PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / "project_name"
-	
+	print(project_type)
+	if project_type:
+		PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / project_type / "project_name"
+	else:
+		PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / "default" / "project_name"
+
 	context = {
-		"sample": project,
+		"project_name": project,
 		"master_url": master if master else 'local[*]',
 		"cores": cores if cores else 2,
-		"docs_version": "1.0.0"
+		"docs_version": __version__
 	}
 	
 	# build the new project folder from template
@@ -34,12 +40,28 @@ def create(master, cores, project):
 
 @start.command()
 @click.argument('project', type=click.STRING, required=True)
-def run(project):
+@click.option('--path', '-p', type=click.STRING)
+def run(project, path):
 	""" Run Project: \n
 		Example:
 		pysparkcli run 'testProject'"""
 	click.echo("Started running project: {}".format(project))
+	if Path("{}/requirements.txt".format(project)).exists():
+		os.system("pip install -r {}/requirements.txt".format(project))
+	os.system("python {prj}/src/app.py".format(prj = project, path = path))
 	os.system("spark-submit {}/src/app.py".format(project))
+
+@start.command()
+@click.argument('project', type=click.STRING, required=True)
+@click.argument('path', type=click.STRING, required=True)
+def stream(project, path):
+	""" Start Data Stream: \n
+		Example:
+		pysparkcli stream 'testProject' 'twitter_stream'"""
+	click.echo("Started running project: {}".format(project))
+	if Path("{}/requirements.txt".format(project)).exists():
+		os.system("pip install -r {}/requirements.txt".format(project))
+	os.system("python {}/src/streaming/{}.py".format(project, path))
 
 @start.command(help="Run Test")
 @click.option("--test", "-t", help="Test case to Run", type=click.STRING)
