@@ -8,7 +8,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
 setuptools.setup(
-    name="pysparkcli",
+    name="pyspark-cli",
     version=version,
     description='PySpark Project Buiding Tool',
     url='https://github.com/qburst/PySparkCLI',
