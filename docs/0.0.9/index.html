@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="This documentation contains the step-by-step procedure to create a PySpark project using a CLI.">
+  <meta name="author" content="Jino Jossy">
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>Welcome to PySparkCLI Documentation - PySparkCLI Docs - 0.0.9</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Welcome to PySparkCLI Documentation";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> PySparkCLI Docs - 0.0.9</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href=".">Welcome to PySparkCLI Documentation</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#welcome-to-pysparkcli-documentation">Welcome to PySparkCLI Documentation</a></li>
+    
+
+    <li class="toctree-l2"><a href="#what-you-should-already-know">What you should already know</a></li>
+    
+
+    <li class="toctree-l2"><a href="#apache-spark-and-pyspark">Apache Spark and PySpark</a></li>
+    
+
+    <li class="toctree-l2"><a href="#writing-your-first-pyspark-app">Writing your first PySpark App</a></li>
+    
+
+    <li class="toctree-l2"><a href="#prerequisites">Prerequisites</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#installation-steps">Installation Steps</a></li>
+        
+            <li><a class="toctree-l3" href="#commands">Commands</a></li>
+        
+            <li><a class="toctree-l3" href="#faq">FAQ</a></li>
+        
+            <li><a class="toctree-l3" href="#project-layout">Project layout</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#references">References</a></li>
+    
+
+    <li class="toctree-l2"><a href="#credits">Credits</a></li>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">PySparkCLI Docs - 0.0.9</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Welcome to PySparkCLI Documentation</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="welcome-to-pysparkcli-documentation">Welcome to PySparkCLI Documentation</h1>
+<p>This documentation contains the step-by-step procedure to create a PySpark project using a CLI. Please visit PySparkCLI <a href="https://github.com/qburst/PySparkCLI">here</a>.</p>
+<h1 id="what-you-should-already-know">What you should already know</h1>
+<p>Apache Spark is a fast and general-purpose cluster computing system. It provides high-level APIs in Java, Scala, Python and R, and an optimized engine that supports general execution graphs. It also supports a rich set of higher-level tools including Spark SQL for SQL and structured data processing, MLlib for machine learning, GraphX for graph processing, and Spark Streaming.</p>
+<p>PySpark is the Python API for Spark.</p>
+<h1 id="apache-spark-and-pyspark">Apache Spark and PySpark</h1>
+<p>Apache Spark is an open-source distributed general-purpose cluster computing framework with (mostly) in-memory data processing engine that can do ETL, analytics, machine learning and graph processing on large volumes of data at rest (batch processing) or in motion (streaming processing) with rich concise high-level APIs for the programming languages: Scala, Python, Java, R, and SQL.</p>
+<p>You could also describe Spark as a distributed, data processing engine for batch and streaming modes featuring SQL queries, graph processing, and machine learning. In contrast to Hadoop’s two-stage disk-based MapReduce computation engine, Spark’s multi-stage (mostly) in-memory computing engine allows for running most computations in memory, and hence most of the time provides better performance for certain applications, e.g. iterative algorithms or interactive data mining (read Spark officially sets a new record in large-scale sorting). Spark aims at speed, ease of use, extensibility and interactive analytics. Spark is often called cluster computing engine or simply execution engine. Spark is a distributed platform for executing complex multi-stage applications, like machine learning algorithms, and interactive ad hoc queries. Spark provides an efficient abstraction for in-memory cluster computing called Resilient Distributed Dataset. Using Spark Application Frameworks, Spark simplifies access to machine learning and predictive analytics at scale. Spark is mainly written in Scala, but provides developer API for languages like Java, Python, and R.</p>
+<p>Why Spark?</p>
+<ul>
+<li>Easy to Get Started - Spark offers spark-shell that makes for a very easy head start to writing and running Spark applications on the command line on your laptop. You could then use Spark Standalone built-in cluster manager to deploy your Spark applications to a production-grade cluster to run on a full dataset.</li>
+<li>Unified Engine for Diverse Workloads - Spark combines batch, interactive, and streaming workloads under one rich concise API. Spark supports near real-time streaming workloads via Spark Streaming application framework. ETL workloads and Analytics workloads are different, however Spark attempts to offer a unified platform for a wide variety of workloads. Graph and Machine Learning algorithms are iterative by nature and less saves to disk or transfers over network means better performance. There is also support for interactive workloads using Spark shell.</li>
+<li>Leverages the Best in distributed batch data processing - When you think about distributed batch data processing, Hadoop naturally comes to mind as a viable solution. Spark draws many ideas out of Hadoop MapReduce. They work together well - Spark on YARN and HDFS - while improving on the performance and simplicity of the distributed computing engine. For many, Spark is Hadoop++, i.e. MapReduce done in a better way. And it should not come as a surprise, without Hadoop MapReduce (its advances and deficiencies), Spark would not have been born at all.</li>
+<li>Interactive Exploration / Exploratory Analytics - It is also called ad hoc queries. Using the Spark shell you can execute computations to process large amount of data (The Big Data). It’s all interactive and very useful to explore the data before final production release.</li>
+<li>RDD - Distributed Parallel Scala Collections As a Scala developer, you may find Spark’s RDD API very similar (if not identical) to Scala’s Collections API. It is also exposed in Java, Python and R (as well as SQL, i.e. SparkSQL, in a sense).</li>
+<li>Rich Standard Library - Not only can you use map and reduce (as in Hadoop MapReduce jobs) in Spark, but also a vast array of other higher-level operators to ease your Spark queries and application development. It expanded on the available computation styles beyond the only map-and-reduce available in Hadoop MapReduce.</li>
+<li>Unified development and deployment environment for all - Regardless of the Spark tools you use - the Spark API for the many programming languages supported - Scala, Java, Python, R, or the Spark shell, or the many Spark Application Frameworks leveraging the concept of RDD, i.e. Spark SQL, Spark Streaming, Spark MLlib and Spark GraphX, you still use the same development and deployment environment to for large data sets to yield a result, be it a prediction (Spark MLlib), a structured data queries (Spark SQL) or just a large distributed batch (Spark Core) or streaming (Spark Streaming) computation.</li>
+<li>Single Environment - Regardless of which programming language you are good at, be it Scala, Java, Python, R or SQL, you can use the same single clustered runtime environment for prototyping, ad hoc queries, and deploying your applications leveraging the many ingestion data points offered by the Spark platform.</li>
+<li>Data Integration Toolkit with Rich Set of Supported Data Sources - Spark can read from many types of data sources — relational, NoSQL, file systems, etc. — using many types of data formats - Parquet, Avro, CSV, JSON.</li>
+<li>Tools unavailable then, at your fingertips now - Spark embraces many concepts in a single unified development and runtime environment. Machine learning that is so tool- and feature-rich in Python, e.g. SciKit library, can now be used by Scala developers (as Pipeline API in Spark MLlib or calling pipe()). DataFrames from R are available in Scala, Java, Python, R APIs. Single node computations in machine learning algorithms are migrated to their distributed versions in Spark MLlib.</li>
+<li>Low-level Optimizations - Apache Spark uses a directed acyclic graph (DAG) of computation stages (aka execution DAG). It postpones any processing until really required for actions. Spark’s lazy evaluation gives plenty of opportunities to induce low-level optimizations (so users have to know less to do more).</li>
+<li>Excels at low-latency iterative workloads - Spark supports diverse workloads, but successfully targets low-latency iterative ones. They are often used in Machine Learning and graph algorithms.</li>
+<li>ETL done easier - Spark gives Extract, Transform and Load (ETL) a new look with the many programming languages supported - Scala, Java, Python (less likely R). You can use them all or pick the best for a problem. Scala in Spark, especially, makes for a much less boiler-plate code (comparing to other languages and approaches like MapReduce in Java).</li>
+<li>Unified Concise High-Level API - Spark offers a unified, concise, high-level APIs for batch analytics (RDD API), SQL queries (Dataset API), real-time analysis (DStream API), machine learning (ML Pipeline API) and graph processing (Graph API).</li>
+<li>Different kinds of data processing using unified API - Spark offers three kinds of data processing using batch, interactive, and stream processing with the unified API and data structures.</li>
+<li>Little to no disk use for better performance</li>
+<li>Fault Tolerance included</li>
+<li>Small Codebase Invites Contributors</li>
+</ul>
+<h1 id="writing-your-first-pyspark-app">Writing your first PySpark App</h1>
+<p>Let’s learn by example. We’ll assume you have PySpark installed already. You can tell PySpark is installed and which version by running the following command in a shell prompt (indicated by the $ prefix):</p>
+<p><code>$pyspark</code></p>
+<p>If PySpark is installed, you should see the version of your installation. If it isn’t, you’ll get an error. This tutorial is written for Spark 2.4.4, which supports Python 2.7.15 and later.</p>
+<h1 id="prerequisites">Prerequisites</h1>
+<p>Follow these steps to set-up the environment required for working with PySpark projects. For installation in Windows, follow the link How to Install Apache Spark on Windows. For installation on Ubuntu, follow these steps:</p>
+<ol>
+<li>Download and Install JDK 8 or above. Before you can start with spark and hadoop, you need to make sure you have java 8 installed, or to install it.</li>
+</ol>
+<p>You should check Java by running following command:</p>
+<p><code>java -version</code></p>
+<p>Select the code in the pad and hit Ctrl+R to watch it unfold in your browser!
+If JDK 8 is not installed you should follow the tutorial How to Install Oracle Java JDK 8 in Ubuntu 16.04?</p>
+<ol>
+<li>Download and install Apache Spark Now the next step is to download latest distribution of Spark. Visit the website https://spark.apache.org/downloads.html and there you will find the latest distribution of Spark framework.</li>
+</ol>
+<p>Create a directory spark with following command in your home.</p>
+<p><code>mkdir spark</code></p>
+<p>Move spark-2.4.4-bin-hadoop2.7.tgz in the spark directory:</p>
+<pre><code>mv ~/Downloads/spark-2.3.0-bin-hadoop2.7.tgz spark 
+cd spark/ 
+tar -xzvf 
+spark-2.4.4-bin-hadoop2.7.tgz
+</code></pre>
+
+<p>After extracting the file go to bin directory of spark and run ./pyspark. It will open following pyspark shell:
+pyspark_shell</p>
+<ol>
+<li>Configure Apache Spark Now you should configure it in path so that it can be executed from anywhere.</li>
+</ol>
+<p>Open bash_profile file:
+ <code>vi ~/.bash_profile</code></p>
+<p>Add following entry:</p>
+<pre><code>export SPARK_HOME=~/spark/spark-2.4.4-bin-hadoop2.7/ 
+export PATH=&quot;$SPARK_HOME/bin:$PATH&quot;
+</code></pre>
+
+<p>Run the following command to update PATH variable in the current session:
+<code>source ~/.bash_profile</code></p>
+<p>After next login you should be able to find pyspark command in path and it can be accessed from any directory.
+4. Check PySpark installation</p>
+<p>In your anaconda prompt,or any python supporting cmd, type pyspark, to enter pyspark shell. To be prepared, best to check it in the python environment from which you run jupyter notebook. You are supposed to see the following:</p>
+<p><img alt="PySpark Shell" src="static/images/pyspark_shell.jpg" /></p>
+<p>pyspark_shell
+Run the following commands, the output should be [1,4,9,16].</p>
+<pre><code>$ pyspark 
+&gt;&gt;&gt; nums = sc.parallelize([1,2,3,4]) 
+&gt;&gt;&gt; nums.map(lambda x: x*x).collect()
+</code></pre>
+
+<p>To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()
+5. Install PySpark using pip</p>
+<p>In your anaconda prompt,or any python supporting cmd, run the following command:
+pip install pyspark
+Run the following commands, this should open up teh pyspark shell.
+<code>pyspark</code></p>
+<p>To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()</p>
+<h2 id="installation-steps">Installation Steps</h2>
+<pre><code>git clone https://github.com/qburst/PySparkCLI.git
+
+cd PySparkCLI
+
+pip3 install -e . --user
+</code></pre>
+<h2 id="commands">Commands</h2>
+<ul>
+<li>
+<p><code>pysparkcli create [project-name]</code> - Create a new project.</p>
+<ul>
+<li>
+<p>Run the following code to create your project <code>sample</code>:</p>
+<p><code>pysparkcli create [PROJECT_NAME] --master [MASTER_URL] --cores [NUMBER]</code></p>
+<ul>
+<li>master: master is the URL of the cluster it connects to. You can also use -m instead of --master.</li>
+<li>name : The name of your PySpark project. You can also use -n instead of --name.</li>
+<li>cores : This controls the number of parallel tasks an executor can run. You can also use -c instead of --cores.</li>
+</ul>
+</li>
+<li>
+<p>You'll see the following in your command line:</p>
+<p><code>Started running project: sample/
+19/11/25 10:37:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using
+builtin-java classes where applicable
+Hello World!.</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>pysparkcli run [project-path]</code> - Run the project by path.</p>
+<ul>
+<li>
+<p>Run the following code to run your project <code>sample</code>:</p>
+<p><code>pysparkcli run sample</code></p>
+</li>
+<li>
+<p>You'll see the following in your command line:</p>
+<p><code>Started running project: sample/
+19/11/25 10:37:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using
+builtin-java classes where applicable
+Hello World!.</code>
+* <code>pysparkcli stream [project-path] [stream-file-path]</code> - Initiate the stream.
+    - Run the following code to  stream data for project <code>sample</code> using <code>twitter_stream</code> file:</p>
+<p><code>pysparkcli stream sample twitter_stream</code></p>
+</li>
+<li>
+<p>You'll see the following in your command line:</p>
+<p><code>(streaming_project_env) ➜  checking git:(docs_develop) ✗ pysparkcli stream test twitter_stream
+Started streaming of project: test
+Requirement already satisfied: certifi==2019.11.28 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 1))
+Requirement already satisfied: chardet==3.0.4 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 2))
+Requirement already satisfied: idna==2.8 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 3))
+Requirement already satisfied: oauthlib==3.1.0 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 4))
+Requirement already satisfied: py4j==0.10.7 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 5))
+Requirement already satisfied: PySocks==1.7.1 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 6))
+Requirement already satisfied: pyspark==2.4.4 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 7))
+Requirement already satisfied: requests==2.22.0 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 8))
+Requirement already satisfied: requests-oauthlib==1.3.0 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 9))
+Requirement already satisfied: six==1.13.0 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 10))
+Requirement already satisfied: tweepy==3.8.0 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 11))
+Requirement already satisfied: urllib3==1.25.7 in ./streaming_project_env/lib/python3.6/site-packages (from -r test/requirements.txt (line 12))
+Listening on port: 5555</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>pysparkcli test [project-path]</code> - Run the project by path.</p>
+<ul>
+<li>
+<p>Run the following code to run all tests for your project <code>sample</code>:</p>
+<p><code>pysparkcli test sample</code></p>
+</li>
+<li>
+<p>You'll see the following in your command line:</p>
+<p>```
+Started running test cases for project: sample
+19/12/09 14:02:13 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+/usr/lib/python3.7/socket.py:660: ResourceWarning: unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48848), raddr=('127.0.0.1', 32857)>
+    self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.7/socket.py:660: ResourceWarning: unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58534), raddr=('127.0.0.1', 42687)>
+    self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.</p>
+<hr />
+<p>Ran 1 test in 6.041s</p>
+<p>OK
+```</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<p>Common issues while installing pysparkcli:</p>
+<pre><code>* pysparkcli: command not found
+    Make sure you add user’s local bin to PATH variable.
+    Add the following code in .bashrc file
+
+    # set PATH so it includes user's private bin if it exists
+    if [ -d "$HOME/.local/bin" ] ; then
+        PATH="$HOME/.local/bin:$PATH"
+    fi
+
+
+* JAVA_HOME is not set
+    Make sure JAVA_HOME is pointing to your JDK and PYSPARK_PYTHON variable is created.
+    You can add them manually by in .bashrc file:
+
+    Example:
+
+        export PYSPARK_PYTHON=python3
+        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+    Save the file and run the following to update environment.
+
+        source ~/.bashrc
+</code></pre>
+<h2 id="project-layout">Project layout</h2>
+<pre><code>hello-world/
+├── __init__.py
+├── src
+│   ├── app.py
+│   ├── configs
+│   │   ├── etl_config.py
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── jobs
+│   │   ├── etl_job.py
+│   │   └── __init__.py
+│   └── settings
+│       ├── default.py
+│       ├── __init__.py
+│       ├── local.py
+│       └── production.py
+└── tests
+    ├── __init__.py
+    ├── test_data
+    │   ├── employees
+    │   │   └── part-00000-9abf32a3-db43-42e1-9639-363ef11c0d1c-c000.snappy.parquet
+    │   └── employees_report
+    │       └── part-00000-4a609ba3-0404-48bb-bb22-2fec3e2f1e68-c000.snappy.parquet
+    └── test_etl_job.py
+
+8 directories, 15 files
+</code></pre>
+<h1 id="references">References</h1>
+<p>All the documentation in this page is taken from:</p>
+<ul>
+<li><a href="https://spark.apache.org/docs/latest/">Apache Spark</a></li>
+<li><a href="https://spark.apache.org/docs/latest/api/python/pyspark.html">PySpark</a></li>
+<li><a href="https://spark.apache.org/downloads.html">Download Apache Spark</a></li>
+</ul>
+<h1 id="credits">Credits</h1>
+<p>Special credits to https://github.com/AlexIoannides/pyspark-example-project and https://github.com/ekampf/PySpark-Boilerplate from where we formulated the basic structure for this PySpark project.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2020-01-20 07:39:48
+-->
