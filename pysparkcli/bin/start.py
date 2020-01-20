@@ -4,7 +4,6 @@ import os
 
 
 from pathlib import Path
-from subprocess import call
 from pysparkcli.core.admin import TemplateParser
 from pysparkcli import __version__
 
@@ -28,30 +27,29 @@ def create(master, cores, project, project_type):
 	else:
 		PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / "default" / "project_name"
 
-	final_proj_name = project_type + "_" + project if project_type else project
 	context = {
-		"project_name": final_proj_name,
+		"project_name": project,
 		"master_url": master if master else 'local[*]',
 		"cores": cores if cores else 2,
 		"docs_version": __version__
 	}
 	
 	# build the new project folder from template
-	TemplateParser().build_project(PROJECT_TEMPLATE_PATH, context, final_proj_name)
+	TemplateParser().build_project(PROJECT_TEMPLATE_PATH, context, project)
 	click.echo("Completed building project: {}".format(project))
 
 @start.command()
 @click.argument('project', type=click.STRING, required=True)
-def run(project):
+@click.option('--path', '-p', type=click.STRING)
+def run(project, path):
 	""" Run Project: \n
 		Example:
 		pysparkcli run 'testProject'"""
 	click.echo("Started running project: {}".format(project))
-	if project.startswith("streaming_"):
+	if Path("{}/requirements.txt".format(project)).exists():
 		os.system("pip install -r {}/requirements.txt".format(project))
-		os.system("python {}/src/app.py".format(project))
-	else:
-		os.system("spark-submit {}/src/app.py".format(project))
+	os.system("python {prj}/src/app.py".format(prj = project, path = path))
+	os.system("spark-submit {}/src/app.py".format(project))
 
 @start.command()
 @click.argument('project', type=click.STRING, required=True)
@@ -61,7 +59,8 @@ def stream(project, path):
 		Example:
 		pysparkcli stream 'testProject' 'twitter_stream'"""
 	click.echo("Started running project: {}".format(project))
-	os.system("pip install -r {}/requirements.txt".format(project))
+	if Path("{}/requirements.txt".format(project)).exists():
+		os.system("pip install -r {}/requirements.txt".format(project))
 	os.system("python {}/src/streaming/{}.py".format(project, path))
 
 @start.command(help="Run Test")
