@@ -1,4 +1,4 @@
-# Welcome to PySparkCLI Documentation
+# Welcome to PySpark CLI Documentation
 
 This documentation contains the step-by-step procedure to create a PySpark project using a CLI. Please visit PySparkCLI [here](https://github.com/qburst/PySparkCLI).
 
@@ -124,26 +124,27 @@ To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()
 
 * `pysparkcli create [project-name]` - Create a new project.
     - Run the following code to create your project `sample`:
-
-        `pysparkcli create [PROJECT_NAME] --master [MASTER_URL] --cores [NUMBER]`
+        
+        `pysparkcli create sample -m local[*] -c 2 -t default`
 
         * master: master is the URL of the cluster it connects to. You can also use -m instead of --master.
-        * name : The name of your PySpark project. You can also use -n instead of --name.
+        * project_type: project_type is the type of the project you want to create like default, streaming etc. You can also use -t instead of --project_type.
         * cores : This controls the number of parallel tasks an executor can run. You can also use -c instead of --cores.
 
     - You'll see the following in your command line:
 
         ```
-        Started running project: sample/
-        19/11/25 10:37:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using
-        builtin-java classes where applicable
-        Hello World!.
+        Completed building project: sample
         ```
 
 * `pysparkcli run [project-path]` - Run the project by path.
     - Run the following code to run your project `sample`:
     
-        `pysparkcli run sample`
+        ```
+        virtualenv --python=/usr/bin/python3.7 sample.env
+        source sample.env/bin/activate
+        pysparkcli run sample
+        ```
 
     - You'll see the following in your command line:
 
@@ -268,4 +269,7 @@ All the documentation in this page is taken from:
 
 # Credits
 
-Special credits to https://github.com/AlexIoannides/pyspark-example-project and https://github.com/ekampf/PySpark-Boilerplate from where we formulated the basic structure for this PySpark project.
+We formulated the basic structure for this PySpark project from inputs from the following repositories:
+
+* [pyspark-example-project](https://github.com/AlexIoannides/pyspark-example-project)
+* [PySpark-Boilerplate](https://github.com/ekampf/PySpark-Boilerplate)
