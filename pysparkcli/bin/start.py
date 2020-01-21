@@ -21,7 +21,6 @@ def create(master, cores, project, project_type):
 		Example:
 		pysparkcli create 'testProject' -m 'local'"""
 	BASE_PATH = Path(__file__)
-	print(project_type)
 	if project_type:
 		PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / project_type / "project_name"
 	else:
@@ -40,16 +39,28 @@ def create(master, cores, project, project_type):
 
 @start.command()
 @click.argument('project', type=click.STRING, required=True)
-@click.option('--path', '-p', type=click.STRING)
-def run(project, path):
+@click.option('--packages', '-p', type=click.STRING)
+@click.option('--class_name', '-c', type=click.STRING)
+@click.option('--jars', '-j', type=click.STRING)
+@click.option('--py_files', '-f', type=click.STRING)
+def run(project, packages, class_name, jars, py_files):
 	""" Run Project: \n
 		Example:
 		pysparkcli run 'testProject'"""
 	click.echo("Started running project: {}".format(project))
 	if Path("{}/requirements.txt".format(project)).exists():
 		os.system("pip install -r {}/requirements.txt".format(project))
-	os.system("python {prj}/src/app.py".format(prj = project, path = path))
-	os.system("spark-submit {}/src/app.py".format(project))
+	submit_command = "spark-submit {prj}/src/app.py --name {prj}".format(prj=project)
+	if py_files:
+		submit_command += " --py_files {}".format(py_files)
+	if packages:
+		submit_command += " --packages {}".format(packages)
+	if jars:
+		submit_command += " --jars {}".format(jars)
+	if packages:
+		submit_command += " --class {}".format(class_name)
+	os.system(submit_command)
+	print("Completed running {}!".format(project))
 
 @start.command()
 @click.argument('project', type=click.STRING, required=True)
