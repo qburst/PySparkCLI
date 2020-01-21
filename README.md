@@ -24,6 +24,10 @@ PySpark is the Python API for Spark.
 ## Run a PySpark Project
     
     pysparkcli run [PROJECT_NAME]
+
+## Initiate Stream for Project
+
+    pysparkcli stream [PROJECT_NAME] [STREAM_FILE_NAME]
     
 ## PySpark Project Test cases
     

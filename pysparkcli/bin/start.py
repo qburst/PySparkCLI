@@ -58,7 +58,7 @@ def stream(project, path):
 	""" Start Data Stream: \n
 		Example:
 		pysparkcli stream 'testProject' 'twitter_stream'"""
-	click.echo("Started running project: {}".format(project))
+	click.echo("Started streaming of project: {}".format(project))
 	if Path("{}/requirements.txt".format(project)).exists():
 		os.system("pip install -r {}/requirements.txt".format(project))
 	os.system("python {}/src/streaming/{}.py".format(project, path))

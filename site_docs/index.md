@@ -154,6 +154,7 @@ To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()
         builtin-java classes where applicable
         Hello World!.
         ```
+        
 * `pysparkcli stream [project-path] [stream-file-path]` - Initiate the stream.
     - Run the following code to  stream data for project `sample` using `twitter_stream` file:
     

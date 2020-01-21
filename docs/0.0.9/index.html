@@ -8,7 +8,7 @@
   <meta name="description" content="This documentation contains the step-by-step procedure to create a PySpark project using a CLI.">
   <meta name="author" content="Jino Jossy">
   <link rel="shortcut icon" href="img/favicon.ico">
-  <title>Welcome to PySparkCLI Documentation - PySparkCLI Docs - 0.0.9</title>
+  <title>Welcome to PySpark CLI Documentation - PySparkCLI Docs - 0.0.9</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="css/theme.css" type="text/css" />
@@ -17,7 +17,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Welcome to PySparkCLI Documentation";
+    var mkdocs_page_name = "Welcome to PySpark CLI Documentation";
     var mkdocs_page_input_path = "index.md";
     var mkdocs_page_url = null;
   </script>
@@ -50,10 +50,10 @@
           
             <li class="toctree-l1 current">
 		
-    <a class="current" href=".">Welcome to PySparkCLI Documentation</a>
+    <a class="current" href=".">Welcome to PySpark CLI Documentation</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#welcome-to-pysparkcli-documentation">Welcome to PySparkCLI Documentation</a></li>
+    <li class="toctree-l2"><a href="#welcome-to-pyspark-cli-documentation">Welcome to PySpark CLI Documentation</a></li>
     
 
     <li class="toctree-l2"><a href="#what-you-should-already-know">What you should already know</a></li>
@@ -111,7 +111,7 @@
     
       
     
-    <li>Welcome to PySparkCLI Documentation</li>
+    <li>Welcome to PySpark CLI Documentation</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -121,7 +121,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="welcome-to-pysparkcli-documentation">Welcome to PySparkCLI Documentation</h1>
+                <h1 id="welcome-to-pyspark-cli-documentation">Welcome to PySpark CLI Documentation</h1>
 <p>This documentation contains the step-by-step procedure to create a PySpark project using a CLI. Please visit PySparkCLI <a href="https://github.com/qburst/PySparkCLI">here</a>.</p>
 <h1 id="what-you-should-already-know">What you should already know</h1>
 <p>Apache Spark is a fast and general-purpose cluster computing system. It provides high-level APIs in Java, Scala, Python and R, and an optimized engine that supports general execution graphs. It also supports a rich set of higher-level tools including Spark SQL for SQL and structured data processing, MLlib for machine learning, GraphX for graph processing, and Spark Streaming.</p>
@@ -221,12 +221,27 @@ pip3 install -e . --user
 <ul>
 <li>
 <p>Run the following code to create your project <code>sample</code>:</p>
-<p><code>pysparkcli create [PROJECT_NAME] --master [MASTER_URL] --cores [NUMBER]</code></p>
+<p><code>pysparkcli create sample -m local[*] -c 2 -t default</code></p>
 <ul>
 <li>master: master is the URL of the cluster it connects to. You can also use -m instead of --master.</li>
-<li>name : The name of your PySpark project. You can also use -n instead of --name.</li>
+<li>project_type: project_type is the type of the project you want to create like default, streaming etc. You can also use -t instead of --project_type.</li>
 <li>cores : This controls the number of parallel tasks an executor can run. You can also use -c instead of --cores.</li>
 </ul>
+</li>
+<li>
+<p>You'll see the following in your command line:</p>
+<p><code>Completed building project: sample</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>pysparkcli run [project-path]</code> - Run the project by path.</p>
+<ul>
+<li>
+<p>Run the following code to run your project <code>sample</code>:</p>
+<p><code>virtualenv --python=/usr/bin/python3.7 sample.env
+source sample.env/bin/activate
+pysparkcli run sample</code></p>
 </li>
 <li>
 <p>You'll see the following in your command line:</p>
@@ -238,20 +253,10 @@ Hello World!.</code></p>
 </ul>
 </li>
 <li>
-<p><code>pysparkcli run [project-path]</code> - Run the project by path.</p>
+<p><code>pysparkcli stream [project-path] [stream-file-path]</code> - Initiate the stream.</p>
 <ul>
 <li>
-<p>Run the following code to run your project <code>sample</code>:</p>
-<p><code>pysparkcli run sample</code></p>
-</li>
-<li>
-<p>You'll see the following in your command line:</p>
-<p><code>Started running project: sample/
-19/11/25 10:37:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using
-builtin-java classes where applicable
-Hello World!.</code>
-* <code>pysparkcli stream [project-path] [stream-file-path]</code> - Initiate the stream.
-    - Run the following code to  stream data for project <code>sample</code> using <code>twitter_stream</code> file:</p>
+<p>Run the following code to  stream data for project <code>sample</code> using <code>twitter_stream</code> file:</p>
 <p><code>pysparkcli stream sample twitter_stream</code></p>
 </li>
 <li>
@@ -362,7 +367,11 @@ ResourceWarning: Enable tracemalloc to get the object allocation traceback
 <li><a href="https://spark.apache.org/downloads.html">Download Apache Spark</a></li>
 </ul>
 <h1 id="credits">Credits</h1>
-<p>Special credits to https://github.com/AlexIoannides/pyspark-example-project and https://github.com/ekampf/PySpark-Boilerplate from where we formulated the basic structure for this PySpark project.</p>
+<p>We formulated the basic structure for this PySpark project from inputs from the following repositories:</p>
+<ul>
+<li><a href="https://github.com/AlexIoannides/pyspark-example-project">pyspark-example-project</a></li>
+<li><a href="https://github.com/ekampf/PySpark-Boilerplate">PySpark-Boilerplate</a></li>
+</ul>
               
             </div>
           </div>
@@ -402,5 +411,5 @@ ResourceWarning: Enable tracemalloc to get the object allocation traceback
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2020-01-20 07:39:48
+Build Date UTC : 2020-01-20 10:03:18
 -->
