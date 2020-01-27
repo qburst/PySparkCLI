@@ -20,6 +20,7 @@ def create(master, cores, project, project_type):
 	""" Create Project: \n
 		Example:
 		pysparkcli create 'testProject' -m 'local'"""
+	click.echo("Using CLI Version: {}".format(__version__))
 	BASE_PATH = Path(__file__)
 	if project_type:
 		PROJECT_TEMPLATE_PATH = BASE_PATH.resolve().parents[1] / "project-template" / project_type / "project_name"
@@ -47,6 +48,7 @@ def run(project, packages, class_name, jars, py_files):
 	""" Run Project: \n
 		Example:
 		pysparkcli run 'testProject'"""
+	click.echo("Using CLI Version: {}".format(__version__))
 	click.echo("Started running project: {}".format(project))
 	if Path("{}/requirements.txt".format(project)).exists():
 		os.system("pip install -r {}/requirements.txt".format(project))
@@ -69,6 +71,7 @@ def stream(project, path):
 	""" Start Data Stream: \n
 		Example:
 		pysparkcli stream 'testProject' 'twitter_stream'"""
+	click.echo("Using CLI Version: {}".format(__version__))
 	click.echo("Started streaming of project: {}".format(project))
 	if Path("{}/requirements.txt".format(project)).exists():
 		os.system("pip install -r {}/requirements.txt".format(project))
@@ -82,6 +85,7 @@ def test(project, test):
 		Example:
 		pysparkcli test 'testProject'
 		pysparkcli test 'testProject' -t etl_job"""
+	click.echo("Using CLI Version: {}".format(__version__))
 	TESTS_PATH = Path.cwd() / (project + "/tests")
 	if test:
 		click.echo("Started running test case: {}".format(test))
@@ -93,5 +97,6 @@ def test(project, test):
 			os.system("spark-submit {}/tests/{}".format(project, i))
 
 if __name__ == "__main__":
+	click.echo("Using CLI Version: {}".format(__version__))
 	# Start the execution of command here
 	start()
