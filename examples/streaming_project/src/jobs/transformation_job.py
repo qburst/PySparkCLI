@@ -5,10 +5,11 @@ from pyspark.sql import SparkSession
 # Our filter function:
 def filter_tweets(tweet):
     json_tweet = json.loads(tweet)
+    print(json_tweet)
     spark = SparkSession.builder.getOrCreate()
     data_rdd = spark.read.json(json_tweet).rdd
     transformed_data = transformfunc(data_rdd)
-    if transformed_data['favcount'] > 20:
+    if transformed_data['favcount'] > 0:
         return True
     return False
 
