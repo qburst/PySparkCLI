@@ -10,8 +10,6 @@ if __name__ == "__main__":
     from configs import spark_config
     from jobs import transformation_job
 
-    print(sys.path)
-
     ssc = spark_config.ssc
     lines = ssc.socketTextStream(spark_config.IP, spark_config.Port)
 
