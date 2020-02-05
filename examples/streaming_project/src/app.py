@@ -8,7 +8,6 @@ from pyspark.storagelevel import StorageLevel
 if __name__ == "__main__":
     sys.path.append(path.join(path.dirname(__file__), '..'))
     from configs import spark_config
-    from jobs import transformation_job
 
     ssc = spark_config.ssc
     lines = ssc.socketTextStream(spark_config.IP, spark_config.Port)
@@ -23,8 +22,8 @@ if __name__ == "__main__":
 
     lines.persist(StorageLevel.MEMORY_AND_DISK)
 
-    data = lines.map(lambda x: loads(x)).map(lambda result: {"user": result.get('user', {})['name'], "location": result.get('user', {})['location'], "text": result["text"]})
-    
+    data = lines.map(lambda x: loads(x)).map(lambda result: {"user": result.get('user', {}).get('name', '--NA--'), "location": result.get('user', {}).get('location', '--NA--'), "text": result.get("text", "--NA--")})
+
     data.saveAsTextFiles("./tweets/%f" % time.time())
     data.pprint()
 
