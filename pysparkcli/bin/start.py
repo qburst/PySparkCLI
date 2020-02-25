@@ -4,6 +4,7 @@ import os
 
 
 from pathlib import Path
+from zipfile import ZipFile
 from pysparkcli.core.admin import TemplateParser
 from pysparkcli import __version__
 
@@ -55,12 +56,22 @@ def run(project, packages, class_name, jars, py_files):
 	submit_command = "spark-submit {prj}/src/app.py --name {prj}".format(prj=project)
 	if py_files:
 		submit_command += " --py_files {}".format(py_files)
+	if not py_files:
+		# create a ZipFile object
+		zipObj = ZipFile("{}/src/jobs/jobs.zip".format(project), 'w')
+		file_paths = ", ".join([path for path in os.listdir("{}/src/jobs".format(project)) if path != "__pycache__"])
+		for p in [path for path in os.listdir("{}/src/jobs".format(project)) if path != "__pycache__"]:
+			zipObj.write("{}/src/jobs/{}".format(project, p))
+		zipObj.close()
+		print(file_paths)
+		submit_command += " --py_files {}/src/jobs/jobs.zip".format(project)
 	if packages:
 		submit_command += " --packages {}".format(packages)
 	if jars:
 		submit_command += " --jars {}".format(jars)
 	if packages:
 		submit_command += " --class {}".format(class_name)
+	print(submit_command)
 	os.system(submit_command)
 	print("Completed running {}!".format(project))
 
@@ -95,6 +106,10 @@ def test(project, test):
 		click.echo("Started running test cases for project: {}".format(project))
 		for i in tests:
 			os.system("spark-submit {}/tests/{}".format(project, i))
+
+@start.command(help="Check Version")
+def version():
+	click.echo("CLI Version: {}".format(__version__))
 
 if __name__ == "__main__":
 	click.echo("Using CLI Version: {}".format(__version__))
