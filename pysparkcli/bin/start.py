@@ -32,6 +32,7 @@ def create(master, cores, project, project_type):
 		"project_name": project,
 		"master_url": master if master else 'local[*]',
 		"cores": cores if cores else 2,
+		"python_version": 3.6,
 		"docs_version": __version__
 	}
 	
