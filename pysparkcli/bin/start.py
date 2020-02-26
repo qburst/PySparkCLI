@@ -63,7 +63,7 @@ def run(project, packages, class_name, jars, py_files):
 	if packages:
 		submit_command += " --class {}".format(class_name)
 	os.system(submit_command)
-	print("Completed running {}!".format(project))
+	click.echo("Completed running {}!".format(project))
 
 @start.command()
 @click.argument('project', type=click.STRING, required=True)
@@ -82,7 +82,7 @@ def stream(project, path):
 @click.option("--test", "-t", help="Test case to Run", type=click.STRING)
 @click.argument("project", type=click.STRING, required=True)
 def test(project, test):
-	""" Run Test Cases: \n
+	""" Run Test: \n
 		Example:
 		pysparkcli test 'testProject'
 		pysparkcli test 'testProject' -t etl_job"""
@@ -94,8 +94,8 @@ def test(project, test):
 	else:
 		tests = [i for i in os.listdir(TESTS_PATH) if not i.startswith('__init__') and i.endswith(".py")]
 		click.echo("Started running test cases for project: {}".format(project))
-		for i in tests:
-			os.system("spark-submit {}/tests/{}".format(project, i))
+		for filename in tests:
+			os.system("spark-submit {}/tests/{}".format(project, filename))
 
 @start.command(help="Check Version")
 def version():
