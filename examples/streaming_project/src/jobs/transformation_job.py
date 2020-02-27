@@ -3,7 +3,7 @@ from pyspark.sql import SparkSession
 
 
 # Our transformation function:
-def processTweets(tweet):
+def process_tweets(tweet):
     json_tweet = json.loads(tweet)
     print(json_tweet)
     spark = SparkSession.builder.getOrCreate()
@@ -11,8 +11,15 @@ def processTweets(tweet):
     transformed_data = transformfunc(data_rdd)
     return transformed_data
 
-def transformFunc(result):
-    return {"user": result.get('user', {})['name'], "location": result.get('user', {})['location'], "text": result["text"]}
+def transformfunc(result):
+    favCount = 0
+    user = None
+    if result["user"]["followers_count"]:
+        if result["user"]['followers_count'] > favCount:
+            favCount = result["user"]['followers_count']
+            print(favCount)
+            user = result["user"]["name"]
+    return {"user": result['user']['name'], "location": result['user']['location'], "text": result["text"]}
 
 def getSparkSessionInstance(sparkConf):
     if ('sparkSessionSingletonInstance' not in globals()):
