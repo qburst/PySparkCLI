@@ -4,9 +4,10 @@ import os
 
 
 from pathlib import Path
-from zipfile import ZipFile
 from pysparkcli.core.admin import TemplateParser
 from pysparkcli import __version__
+
+from pysparkcli.core.utils import HandleZipFiles
 
 @click.group()
 def start():
@@ -54,16 +55,22 @@ def run(project, packages, class_name, jars, py_files):
 	click.echo("Started running project: {}".format(project))
 	if Path("{}/requirements.txt".format(project)).exists():
 		os.system("pip install -r {}/requirements.txt".format(project))
-	submit_command = "spark-submit {prj}/src/app.py --name {prj}".format(prj=project)
+	submit_command = "spark-submit --name {prj}".format(prj=project)
 	if py_files:
 		submit_command += " --py_files {}".format(py_files)
+	zipname = "{}/jobs.zip".format(project)
+	if not py_files:
+		# create a ZipFile object
+		HandleZipFiles(zipname, project).build()
+		submit_command += " --py-files " + zipname
 	if packages:
 		submit_command += " --packages {}".format(packages)
 	if jars:
 		submit_command += " --jars {}".format(jars)
 	if packages:
 		submit_command += " --class {}".format(class_name)
-	os.system(submit_command)
+	os.system(submit_command + " {}/src/app.py".format(project))
+	os.remove(zipname)
 	click.echo("Completed running {}!".format(project))
 
 @start.command()
