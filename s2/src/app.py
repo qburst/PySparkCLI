@@ -4,42 +4,19 @@ from json import loads
 from os import path
 from pyspark.storagelevel import StorageLevel
 # from pyspark.sql.functions import
-from pyspark.sql.types import (StructField, StringType, ArrayType,
-                               IntegerType, StructType)
+from pyspark.sql.types import *
+from pyspark.sql.functions import *
 
 
 
 if __name__ == "__main__":
-    sys.path.append(path.join(path.dirname(__file__), '..'))
-    from configs.spark_config import socketDF as df
+    sys.path.append(path.dirname(__file__))
+
     from settings import default
+    from configs.spark_config import socketDF as df
     from configs.spark_config import spark
     from jobs.transformation_job import TweetClass as tc
 
-
-    def process_tweets(res):
-        # print(result)
-        # print(type(result))
-        # # return {}
-        result = loads(res[0])
-        dict = {"user": result.get('user', {})['name'],
-                "location": result.get('user', {})['location'],
-                "text": result.get("text")}
-        print(dict)
-        return dict
-    # ssc = spark_config.ssc
-    # lines = ssc.socketTextStream(default.DATA_SOURCE, default.DATA_SOURCE_PORT)
-
-    # When your DStream in Spark receives data, it creates an RDD every batch interval.
-    # We use coalesce(1) to be sure that the final filtered RDD has only one partition,
-    # so that we have only one resulting part-00000 file in the directory.
-    # The method saveAsTextFiles() should really be re-named saveInDirectory(),
-    # because that is the name of the directory in which the final part-00000 file is saved.
-    # We use time.time() to make sure there is always a newly created directory, otherwise
-    # it will throw an Exception.
-
-    # if default.DEBUG:
-    #     lines.persist(StorageLevel.MEMORY_AND_DISK)
     
     # array_schema = StructType([
     #     StructField('user', StringType(), nullable=True),
@@ -53,17 +30,79 @@ if __name__ == "__main__":
 
     # data.saveAsTextFiles("./tweets/%f" % time.time())
 
-    # if default.DEBUG:
-    #     data.pprint()
-
+    # Returns True for DataFrames that have streaming sources
+    print("("*40+str(df.columns)+")"*40)
     func = tc().process_tweets
-    print(df.isStreaming)    # Returns True for DataFrames that have streaming sources
-    df.printSchema()
-    data = df.writeStream.format('memory') \
-        .foreach(func)\
-        .start()
 
-    data.explain()
+    # tweet_dict = {"user": self.tweet.get('user', {})['name'],
+    #               "location": self.tweet.get('user', {})['location'],
+    #               "text": self.tweet.get("text")}
+    def get_name(value):
+        return loads(value).get('user', {})['name']
+
+    def get_text(value):
+        return loads(value).get('text', "--NA--")
+
+    def get_location(value):
+        return loads(value).get('user', {}).get('location', '--NA--')
+
+    name = udf(get_name)
+    location = udf(get_location)
+    text = udf(get_text)
+    # transform = df.writeStream.foreach(func)
+    new = df.select("value")\
+        .withColumn("name", name(df["value"]))\
+        .withColumn("text", text(df["value"]))\
+        .withColumn("location", location(df["value"]))
+
+    print(new.columns)
+    query = new \
+        .writeStream \
+        .outputMode('update') \
+        .format('console') \
+        .start()
+    # transform = df.writeStream\
+    #     .foreach(func)\
+    #     .start()
+    # print("&"*40+str(df.columns)+"*"*40)
+    # df.createOrReplaceTempView("tweets")
+    # query = spark.sql("select * from tweets")
+    # for i in query .show():
+    #     print(i)
+    #
+    #
+
+    # You must start the Spark StreamingContext, and await process termination…
+    query.awaitTermination()
+    # transform.awaitTermination()
+
+    # table = df.writeStream.queryName("tweets").start()
+    # df.createOrReplaceTempView("tweets").start()
+    # df2 = spark.sql("SELECT * from tweets")
+    # for i in df2.collect():
+    #     print(i, dir(i))
+
+    # dtypes_map = {<class 'str'>: 'ShortType', <class 'NoneType'>: 'NullType', <class 'bool'>: 'BooleanType', <class 'datetime.date'>: 'DateType', <class 'datetime.datetime'>: 'TimestampType', <class 'float'>: 'FloatType', <class 'int'>: 'LongType', <class 'list'>: 'ArrayType', <class 'dict'>: 'MapType'}
+
+    # table = df.write.saveAsTable("tweets").start()
+    # table = df.select("value")
+    # table = df.groupBy(
+    #             df.value,
+    #             window(current_timestamp(), "10 seconds")
+    #         ).count()
+
+    # table = df.writeStream \
+    #             .format("parquet").outputMode("append") \
+    #             .option("compression", "snappy") \
+    #             .option("path",
+    #                     "/home/qburst/Dev/open_source/QBContrib/PySparkCLI/s2/parquet/") \
+    #             .option("checkpointLocation",
+    #                     "/home/qburst/Dev/open_source/QBContrib/PySparkCLI/s2/checkpoint/") \
+    #             .start()
+
+    # table.cache()
+    # table.createOrReplaceTempView("tweets")
+
         # [{"user": result.get('user', {}).get('name', '--NA--'),
         #               "location": result.get('user', {}).get('location',
         #                                                      '--NA--'),
@@ -99,6 +138,3 @@ if __name__ == "__main__":
         # data.pprint()
     # ssc.start()
     # ssc.awaitTermination()
-
-    # You must start the Spark StreamingContext, and await process termination…
-    data.awaitTermination()

@@ -58,11 +58,11 @@ def run(project, packages, class_name, jars, py_files):
 	submit_command = "spark-submit --name {prj}".format(prj=project)
 	if py_files:
 		submit_command += " --py_files {}".format(py_files)
-	zipname = "{}/jobs.zip".format(project)
+	zipnames = "{prj}/jobs.zip,{prj}/settings.zip".format(prj=project)
 	if not py_files:
 		# create a ZipFile object
-		HandleZipFiles(zipname, project).build()
-		submit_command += " --py-files " + zipname
+		HandleZipFiles(zipnames, project).build()
+		submit_command += " --py-files " + zipnames
 	if packages:
 		submit_command += " --packages {}".format(packages)
 	if jars:
@@ -70,7 +70,8 @@ def run(project, packages, class_name, jars, py_files):
 	if packages:
 		submit_command += " --class {}".format(class_name)
 	os.system(submit_command + " {}/src/app.py".format(project))
-	os.remove(zipname)
+	for name in zipnames.split(","):
+		os.remove(name)
 	click.echo("Completed running {}!".format(project))
 
 @start.command()

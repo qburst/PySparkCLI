@@ -10,17 +10,21 @@ class TweetClass:
     def __init__(self):
         self.tweet = {}
 
-# Our transformation function:
+    # Our transformation function:
     def process_tweets(self, data):
-        print(type(data), dir(data))
         # Retrieving dataframe Row object here with values as string
-        self.tweet = loads(data[0])
-        tweet_dict = {"user": self.tweet.get('user', {})['name'],
-                      "location": self.tweet.get('user', {})['location'],
-                      "text": self.tweet.get("text")}
-        # if default.DEBUG:
-        #     pprint(tweet_dict)
-        return tweet_dict
+        try:
+            self.tweet = loads(data.asDict()['value'])
+            tweet_dict = {"user": self.tweet.get('user', {})['name'],
+                          "location": self.tweet.get('user', {})['location'],
+                          "text": self.tweet.get("text")}
+            if default.DEBUG:
+                pprint(tweet_dict)
+            return tweet_dict
+        except Exception as e:
+            if default.DEBUG:
+                print("Error:"+e)
+            return {}
 
 
 def transform_func(res):
