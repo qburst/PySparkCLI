@@ -1,2 +1,0 @@
-click==6.7
-pyspark==2.4.4

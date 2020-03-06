@@ -1,0 +1,5 @@
+v1
+{"path":"file:///home/qburst/Dev/open_source/QBContrib/PySparkCLI/examples/twitter_as_parquet/parquet/part-00000-f87383eb-5c64-4e0d-b09a-313508495cd1-c000.snappy.parquet","size":2060,"isDir":false,"modificationTime":1583486768000,"blockReplication":1,"blockSize":33554432,"action":"add"}
+{"path":"file:///home/qburst/Dev/open_source/QBContrib/PySparkCLI/examples/twitter_as_parquet/parquet/part-00001-d812d4b6-daa2-425e-a046-e0456f7a9ddb-c000.snappy.parquet","size":3448,"isDir":false,"modificationTime":1583486768000,"blockReplication":1,"blockSize":33554432,"action":"add"}
+{"path":"file:///home/qburst/Dev/open_source/QBContrib/PySparkCLI/examples/twitter_as_parquet/parquet/part-00002-e7a1e350-55fa-4f3c-a1b6-6f0f31881053-c000.snappy.parquet","size":3585,"isDir":false,"modificationTime":1583486768000,"blockReplication":1,"blockSize":33554432,"action":"add"}
+{"path":"file:///home/qburst/Dev/open_source/QBContrib/PySparkCLI/examples/twitter_as_parquet/parquet/part-00003-a1d2fd7e-3226-4e63-b8b9-7015aba9f36c-c000.snappy.parquet","size":3219,"isDir":false,"modificationTime":1583486768000,"blockReplication":1,"blockSize":33554432,"action":"add"}
