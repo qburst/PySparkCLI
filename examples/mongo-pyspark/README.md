@@ -1,0 +1,29 @@
+# Commands to install MongoDB
+
+#### Step 1: Import the public key used by the package management system.
+```bash
+wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+```
+
+#### Step 2: Create a list file for MongoDB
+```bash
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+```
+#### Step 3: Reload local package database
+```bash
+sudo apt-get update
+```
+#### Step 4: Install the MongoDB packages
+```bash
+sudo apt-get install -y mongodb-org=4.2.3 mongodb-org-server=4.2.3 mongodb-org-shell=4.2.3 mongodb-org-mongos=4.2.3 mongodb-org-tools=4.2.3
+```
+#### Step 5: Start MongoDB
+```bash
+sudo systemctl start mongod
+```
+#### Step 6: Open Mongo Shell
+```bash
+mongo
+```
+### Reference:
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
