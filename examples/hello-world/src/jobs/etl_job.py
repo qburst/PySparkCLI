@@ -40,6 +40,7 @@ from pyspark.sql import Row
 from pyspark.sql.functions import col, concat_ws, lit
 
 from pysparkcli.core.admin import SparkBuilder
+from document import EtlData
 
 
 def main():
@@ -59,6 +60,8 @@ def main():
     # execute ETL pipeline
     data = extract_data(spark)
     data_transformed = transform_data(data, config.get('steps_per_floor', 12))
+    data = data_transformed.collect()
+    load_data_to_mongo(data)
     load_data(data_transformed)
 
     # log the success and terminate Spark application
@@ -153,6 +156,12 @@ def create_test_data(spark, config):
      .parquet('tests/test_data/employees_report', mode='overwrite'))
 
     return None
+
+
+def load_data_to_mongo(data):
+    for row in data:
+        etl = EtlData(name=row["name"], steps_to_desk=row["steps_to_desk"])
+        etl.save()
 
 
 # entry point for PySpark ETL application
