@@ -40,7 +40,9 @@ from pyspark.sql import Row
 from pyspark.sql.functions import col, concat_ws, lit
 
 from pysparkcli.core.admin import SparkBuilder
-from document import EtlData
+from document import EtlData as MongoEtlData
+from sql_db import EtlData as SQLEtlData
+from sql_db import getSession
 
 
 def main():
@@ -62,6 +64,7 @@ def main():
     data_transformed = transform_data(data, config.get('steps_per_floor', 12))
     data = data_transformed.collect()
     load_data_to_mongo(data)
+    load_data_to_db(data)
     load_data(data_transformed)
 
     # log the success and terminate Spark application
@@ -160,8 +163,16 @@ def create_test_data(spark, config):
 
 def load_data_to_mongo(data):
     for row in data:
-        etl = EtlData(name=row["name"], steps_to_desk=row["steps_to_desk"])
+        etl = MongoEtlData(name=row["name"], steps_to_desk=row["steps_to_desk"])
         etl.save()
+
+
+def load_data_to_db(data):
+    session = getSession()
+    for row in data:
+        etl = SQLEtlData(name=row["name"], steps_to_desk=row["steps_to_desk"])
+        session.add(etl)
+    session.commit()
 
 
 # entry point for PySpark ETL application
