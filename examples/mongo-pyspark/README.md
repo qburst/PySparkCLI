@@ -25,5 +25,9 @@ sudo systemctl start mongod
 ```bash
 mongo
 ```
+#### Step 7: Install mongoengine using pip
+```bash
+pip install mongoengine
+```
 ### Reference:
 https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
