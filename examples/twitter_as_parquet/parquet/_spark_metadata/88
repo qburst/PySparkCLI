@@ -1,3 +1,0 @@
-v1
-{"path":"file:///home/qburst/Dev/open_source/QBContrib/PySparkCLI/examples/twitter_as_parquet/parquet/part-00000-ab129fec-b471-4d6f-be24-0d1628affd42-c000.snappy.parquet","size":4032,"isDir":false,"modificationTime":1583486771000,"blockReplication":1,"blockSize":33554432,"action":"add"}
-{"path":"file:///home/qburst/Dev/open_source/QBContrib/PySparkCLI/examples/twitter_as_parquet/parquet/part-00001-82ec51c1-7c1f-4275-8a12-31fddedd8501-c000.snappy.parquet","size":1851,"isDir":false,"modificationTime":1583486771000,"blockReplication":1,"blockSize":33554432,"action":"add"}
