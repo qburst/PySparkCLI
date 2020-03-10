@@ -4,6 +4,8 @@ import os
 from zipfile import ZipFile
 from itertools import chain
 
+from pysparkcli.core.conf.base import *
+
 
 class HandleZipFiles:
     def __init__(self, filenames, project):
@@ -24,3 +26,18 @@ class HandleZipFiles:
                 self.zipObj.write("{}/src/{}/{}".format(self.project, zip_name, path),
                                   "{}/{}".format(zip_name, path))
             self.zipObj.close()
+
+
+class BuildZipNames:
+    def __init__(self, project, modules=[]):
+        self.project = project
+        self.modules = modules
+    
+    def build(self):
+        zip_names = self.list_to_names(BASE_MODULES)
+        if self.modules:
+            zip_names += ","+self.list_to_names(self.modules)
+        return zip_names
+    
+    def list_to_names(self, lst):
+        return self.project +"/"+".zip,{prj}/".join(lst).format(prj=self.project)+".zip"
