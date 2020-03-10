@@ -29,5 +29,15 @@ mongo
 ```bash
 pip install mongoengine
 ```
+### Configuring SQLAlchemy for connecting Postges with PySpark
+#### Step 1: Install SQLAlchemy and psycopg2 using pip
+```bash
+pip install SQLAlchemy
+pip install psycopg2
+```
+#### Step 2: Configure variable 'engine' as shown below in sql_db.py
+```python
+engine = create_engine('postgresql://Username:Password@dbHost/dbName')
+```
 ### Reference:
 https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
