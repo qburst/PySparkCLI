@@ -25,8 +25,9 @@ schema = StructType([
     StructField("salary", StringType(), True)
 ])
 
-train_df = spark.read.csv('train.csv', header=False, schema=schema)
-test_df = spark.read.csv('test.csv', header=False, schema=schema)
+train_df = spark.read.csv('./datasets/train.csv', header=False, schema=schema)
+test_df = spark.read.csv('./datasets/test.csv', header=False, schema=schema)
+print(train_df)
 
 categorical_variables = ['workclass', 'education', 'marital-status',
                          'occupation', 'relationship', 'race', 'sex', 'native-country']
