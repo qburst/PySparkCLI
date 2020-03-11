@@ -4,10 +4,11 @@ import os
 
 
 from pathlib import Path
+
 from pysparkcli.core.admin import TemplateParser
 from pysparkcli import __version__
+from pysparkcli.core.utils import *
 
-from pysparkcli.core.utils import HandleZipFiles
 
 @click.group()
 def start():
@@ -47,7 +48,8 @@ def create(master, cores, project, project_type):
 @click.option('--class_name', '-c', type=click.STRING)
 @click.option('--jars', '-j', type=click.STRING)
 @click.option('--py_files', '-f', type=click.STRING)
-def run(project, packages, class_name, jars, py_files):
+@click.option('--py_modules', '-m', type=click.STRING)
+def run(project, packages, class_name, jars, py_files, py_modules):
 	""" Run Project: \n
 		Example:
 		pysparkcli run 'testProject'"""
@@ -58,11 +60,13 @@ def run(project, packages, class_name, jars, py_files):
 	submit_command = "spark-submit --name {prj}".format(prj=project)
 	if py_files:
 		submit_command += " --py_files {}".format(py_files)
-	zipnames = "{prj}/jobs.zip,{prj}/settings.zip".format(prj=project)
-	if not py_files:
-		# create a ZipFile object
-		HandleZipFiles(zipnames, project).build()
-		submit_command += " --py-files " + zipnames
+	zip_names = BuildZipNames(project).build()
+	if py_modules:
+		zip_names = BuildZipNames(project, py_modules.split(",")).build()
+	# create a ZipFile object
+	HandleZipFiles(zip_names, project).build()
+	submit_command += " --py-files " + zip_names
+		
 	if packages:
 		submit_command += " --packages {}".format(packages)
 	if jars:
@@ -70,7 +74,7 @@ def run(project, packages, class_name, jars, py_files):
 	if packages:
 		submit_command += " --class {}".format(class_name)
 	os.system(submit_command + " {}/src/app.py".format(project))
-	for name in zipnames.split(","):
+	for name in zip_names.split(","):
 		os.remove(name)
 	click.echo("Completed running {}!".format(project))
 
