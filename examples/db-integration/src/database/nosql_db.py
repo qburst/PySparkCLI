@@ -1,2 +1,2 @@
 from mongoengine import *
-connect('mydb2')
+connect('mydb')

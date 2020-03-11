@@ -22,7 +22,7 @@ class EtlData(Base):
 
 
 def getSession():
-    engine = create_engine('postgresql://postgres:Welcome1@localhost/mydb')
+    engine = create_engine('postgresql://postgres:password@localhost/mydb')
 
     # Create all tables by issuing CREATE TABLE commands to the DB.
     Base.metadata.create_all(engine)
