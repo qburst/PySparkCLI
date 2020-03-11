@@ -202,6 +202,10 @@ To exit pyspark shell, type Ctrl-z and enter. Or the python command exit()
 
         OK
         ```
+* `pysparkcli version` - Check Version.
+    - Run the following code to check PySpark CLI version:
+    
+        `pysparkcli version`
 
 ## FAQ
 
