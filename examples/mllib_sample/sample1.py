@@ -27,11 +27,10 @@ schema = StructType([
 
 train_df = spark.read.csv('./datasets/train.csv', header=False, schema=schema)
 test_df = spark.read.csv('./datasets/test.csv', header=False, schema=schema)
-print(train_df)
 
 categorical_variables = ['workclass', 'education', 'marital-status',
                          'occupation', 'relationship', 'race', 'sex', 'native-country']
-indexers = [StringIndexer(inputCol=column, outputCol=column+"-index")
+indexers = [StringIndexer(inputCol=column, outputCol=column+"-index").setHandleInvalid("skip")
             for column in categorical_variables]
 encoder = OneHotEncoderEstimator(
     inputCols=[indexer.getOutputCol() for indexer in indexers],
@@ -59,8 +58,9 @@ train_df = assembler.transform(train_df)
 test_df = assembler.transform(test_df)
 
 indexer = StringIndexer(inputCol='salary', outputCol='label')
-train_df = indexer.fit(train_df).transform(train_df)
-test_df = indexer.fit(test_df).transform(test_df)
+
+train_df = indexer.setHandleInvalid("skip").fit(train_df).transform(train_df)
+test_df = indexer.setHandleInvalid("skip").fit(test_df).transform(test_df)
 # train_df.limit(10).toPandas()['label']
 
 lr = LogisticRegression(featuresCol='features', labelCol='label')

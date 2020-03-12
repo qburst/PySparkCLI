@@ -1,78 +1,66 @@
-# importing required libraries
-from pyspark import SparkContext
-from pyspark.sql.session import SparkSession
-from pyspark.streaming import StreamingContext
-import pyspark.sql.types as tp
-from pyspark.ml import Pipeline
-from pyspark.ml.feature import StringIndexer, OneHotEncoderEstimator, VectorAssembler
-from pyspark.ml.feature import StopWordsRemover, Word2Vec, RegexTokenizer
+from pyspark.ml.feature import CountVectorizer
+from pyspark.ml.evaluation import BinaryClassificationEvaluator
 from pyspark.ml.classification import LogisticRegression
-from pyspark.sql import Row, Column
-import sys
+from pyspark.ml import Pipeline
+from pyspark.ml.feature import StringIndexer
+from pyspark.ml.feature import HashingTF, IDF, Tokenizer
+from pyspark.sql import SQLContext
+import warnings
+import pyspark as ps
+import findspark
+findspark.init()
 
-# define the function to get the predicted sentiment on the data received
-
-
-def get_prediction(tweet_text):
-    try:
-        # remove the blank tweets
-        tweet_text = tweet_text.filter(lambda x: len(x) > 0)
-        # create the dataframe with each row contains a tweet text
-        rowRdd = tweet_text.map(lambda w: Row(tweet=w))
-        wordsDataFrame = spark.createDataFrame(rowRdd)
-        # get the sentiments for each row
-        pipelineFit.transform(wordsDataFrame).select(
-            'tweet', 'prediction').show()
-    except:
-        print('No data')
+try:
+    # create SparkContext on all CPUs available: in my case I have 4 CPUs on my laptop
+    sc = ps.SparkContext('local[4]')
+    sqlContext = SQLContext(sc)
+    print("Just created a SparkContext")
+except ValueError:
+    warnings.warn("SparkContext already exists in this scope")
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Error!! Please define host and port number", file=sys.stderr)
-        sys.exit(-1)
-    sc = SparkContext(appName="PySparkShell")
-    spark = SparkSession(sc)
+df = sqlContext.read.format('com.databricks.spark.csv').options(
+    header='true', inferschema='true').load('./datasets/clean_tweet.csv')
+df = df.dropna()
+df.count()
 
-    # define the schema
-    my_schema = tp.StructType([
-        tp.StructField(
-            name='id',          dataType=tp.IntegerType(),  nullable=True),
-        tp.StructField(name='label',
-                       dataType=tp.IntegerType(),  nullable=True),
-        tp.StructField(name='tweet',
-                       dataType=tp.StringType(),   nullable=True)
-    ])
-    # reading the data set
-    print('\n\nReading the dataset...........................\n')
-    my_data = spark.read.csv(
-        './datasets/twitter_sentiments.csv', schema=my_schema, header=True)
-    my_data.show(2)
+(train_set, val_set, test_set) = df.randomSplit([0.98, 0.01, 0.01], seed=2000)
 
-    my_data.printSchema()
-    print('\n\nDefining the pipeline stages.................\n')
-    stage_1 = RegexTokenizer(
-        inputCol='tweet', outputCol='tokens', pattern='\\W')
+tokenizer = Tokenizer(inputCol="text", outputCol="words")
+hashtf = HashingTF(numFeatures=2**16, inputCol="words", outputCol='tf')
+# minDocFreq: remove sparse terms
+idf = IDF(inputCol='tf', outputCol="features", minDocFreq=5)
+label_stringIdx = StringIndexer(inputCol="target", outputCol="label")
+pipeline = Pipeline(stages=[tokenizer, hashtf, idf, label_stringIdx])
 
-    stage_2 = StopWordsRemover(inputCol='tokens', outputCol='filtered_words')
+pipelineFit = pipeline.fit(train_set)
+train_df = pipelineFit.transform(train_set)
+val_df = pipelineFit.transform(val_set)
+train_df.show(5)
+lr = LogisticRegression(maxIter=100)
+lrModel = lr.fit(train_df)
+predictions = lrModel.transform(val_df)
+evaluator = BinaryClassificationEvaluator(rawPredictionCol="rawPrediction")
+print("EVALUATOR", evaluator.evaluate(predictions))
 
-    stage_3 = Word2Vec(inputCol='filtered_words',
-                       outputCol='vector', vectorSize=100)
+accuracy = predictions.filter(
+    predictions.label == predictions.prediction).count() / float(val_set.count())
+print("ACCURACY", accuracy)
 
-    model = LogisticRegression(featuresCol='vector', labelCol='label')
 
-    print('\n\nStages Defined................................\n')
-    pipeline = Pipeline(stages=[stage_1, stage_2, stage_3, model])
+# tokenizer = Tokenizer(inputCol="text", outputCol="words")
+# cv = CountVectorizer(vocabSize=2**16, inputCol="words", outputCol='cv')
+# # minDocFreq: remove sparse terms
+# idf = IDF(inputCol='cv', outputCol="features", minDocFreq=5)
+# label_stringIdx = StringIndexer(inputCol="target", outputCol="label")
+# lr = LogisticRegression(maxIter=100)
+# pipeline = Pipeline(stages=[tokenizer, cv, idf, label_stringIdx, lr])
 
-    print('\n\nFit the pipeline with the training data.......\n')
-    pipelineFit = pipeline.fit(my_data)
+# pipelineFit = pipeline.fit(train_set)
+# predictions = pipelineFit.transform(val_set)
+# accuracy = predictions.filter(
+#     predictions.label == predictions.prediction).count() / float(val_set.count())
+# roc_auc = evaluator.evaluate(predictions)
 
-    print('\n\nModel Trained....Waiting for the Data!!!!!!!!\n')
-    ssc = StreamingContext(sc, batchDuration=3)
-    lines = ssc.socketTextStream(sys.argv[1], int(sys.argv[2]))
-    words = lines.flatMap(lambda line: line.split('TWEET_APP'))
-
-    words.foreachRDD(get_prediction)
-
-    ssc.start()             # Start the computation
-    ssc.awaitTermination()  # Wait for the computation to terminate
+# print("Accuracy Score: {0:.4f}".format(accuracy))
+# print("ROC-AUC: {0:.4f}".format(roc_auc))
