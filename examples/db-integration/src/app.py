@@ -10,6 +10,7 @@ from database.nosql_db import *
 from database.sql_db import getSession, EtlData as SQLEtlData
 from models.document import EtlData as MongoEtlData
 
+BASE = os.path.dirname(os.path.realpath(__file__))
 
 def main():
     """Main ETL script definition.
@@ -19,7 +20,7 @@ def main():
     # start Spark application and get Spark session, logger and config
     spark = SparkBuilder("test").build_sc()
     config = {}
-    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "configs/etl_config.json"), "r") as f:
+    with open(os.path.join(BASE, "configs/etl_config.json"), "r") as f:
         config = json.loads(f.read())
 
     # log that main ETL job is starting
@@ -30,8 +31,8 @@ def main():
     data_transformed = transform_data(data, config.get('steps_per_floor', 12))
     data = data_transformed.collect()
     load_data_to_mongo(data)
-    load_data_to_db(data)
-    load_data(data_transformed)
+    load_data_to_postgres_db(data)
+    load_data_as_parquet(data_transformed)
 
     # log the success and terminate Spark application
     print('test_etl_job is finished')
@@ -48,7 +49,7 @@ def extract_data(spark):
     df = (
         spark
         .read
-        .parquet(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../tests/test_data/employees')))
+        .parquet(os.path.join(BASE, '../tests/test_data/employees')))
 
     return df
 
@@ -74,7 +75,7 @@ def transform_data(df, steps_per_floor_):
     return df_transformed
 
 
-def load_data(df):
+def load_data_as_parquet(df):
     """Collect data locally and write to CSV.
 
     :param df: DataFrame to print.
@@ -83,7 +84,7 @@ def load_data(df):
     (df
      .coalesce(1)
      .write
-     .csv('loaded_data', mode='overwrite', header=True))
+     .csv(os.path.join(BASE,'../loaded_data'), mode='overwrite', header=True))
     return None
 
 
@@ -113,7 +114,7 @@ def create_test_data(spark, config):
     (df
      .coalesce(1)
      .write
-     .parquet('tests/test_data/employees', mode='overwrite'))
+     .parquet(os.path.join(BASE, '../tests/test_data/employees'), mode='overwrite'))
 
     # create transformed version of data
     df_tf = transform_data(df, config['steps_per_floor'])
@@ -122,7 +123,7 @@ def create_test_data(spark, config):
     (df_tf
      .coalesce(1)
      .write
-     .parquet('tests/test_data/employees_report', mode='overwrite'))
+     .parquet(os.path.join(BASE, '../tests/test_data/employees_report'), mode='overwrite'))
 
     return None
 
@@ -133,7 +134,7 @@ def load_data_to_mongo(data):
         etl.save()
 
 
-def load_data_to_db(data):
+def load_data_to_postgres_db(data):
     session = getSession()
     for row in data:
         etl = SQLEtlData(name=row["name"], steps_to_desk=row["steps_to_desk"])
