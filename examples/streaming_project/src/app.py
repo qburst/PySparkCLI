@@ -3,20 +3,66 @@ import sys
 from json import loads
 from os import path
 from pyspark.storagelevel import StorageLevel
-from mongoengine import *
-connect("mydb2", alias='default', host='localhost:27017')
+from mongoengine import connect, Document, StringField
+
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+# The base class which our objects will be defined on.
+Base = declarative_base()
+connect(db="mydb2", alias='default', host='localhost:27017')
+
+class StreamData(Base):
+    __tablename__ = 'StreamData'
+
+    # Every SQLAlchemy table should have a primary key named 'id'
+    id = Column(Integer, primary_key=True)
+
+    user = Column(String)
+    location = Column(String)
+
+    # Lets us print out object conveniently.
+    def __repr__(self):
+        return "<Data(user='%s', location='%s')>" % (
+            self.name, self.location)
+
+
+def getSession():
+    engine = create_engine('postgresql://postgres:Welcome1@localhost/mydb')
+
+    # Create all tables by issuing CREATE TABLE commands to the DB.
+    Base.metadata.create_all(engine)
+
+    # Creates a new session to the database by using the engine we described.
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    return session
+
+
+
+def saveToDB(data):
+    data = loads(data)
+    user = data.get('user', {}).get('name', '--NA--')
+    location = data.get('user', {}).get('location', '--NA--')
+
+    etl = StreamData(user=user, location=location)
+    session.add(etl)
+    session.commit()
+    return True
 
 class Tweet(Document):
     user = StringField(required=True, max_length=200)
     location = StringField(required=False, max_length=500)
     meta = {'allow_inheritance': True}
 
-def saveToDB(data):
+def saveToMongoDB(data):
     data = loads(data)
     user = data.get('user', {}).get('name', '--NA--')
     location = data.get('user', {}).get('location', '--NA--')
     tweet = Tweet(user=user, location=location)
     tweet.save()
+    return True
 
 if __name__ == "__main__":
     sys.path.append(path.join(path.dirname(__file__), '..'))
@@ -40,7 +86,9 @@ if __name__ == "__main__":
     # data.saveAsTextFiles("./tweets/%f" % time.time())
     # data.pprint()
     # data = lines.map(lambda x: loads(x)).map(lambda result: saveToDB(result))
-    lines.foreachRDD(lambda rdd: rdd.filter(saveToDB).coalesce(1).saveAsTextFile("./tweets/%f" % time.time()))
+    session = getSession()
+    lines.foreachRDD(lambda rdd: rdd.filter(saveToMongoDB).coalesce(1).saveAsTextFile("./tweets/%f" % time.time()))
+    session.close()
     # You must start the Spark StreamingContext, and await process termination…
     ssc.start()
     ssc.awaitTermination()
