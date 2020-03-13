@@ -28,6 +28,7 @@ schema = StructType([
 train_df = spark.read.csv('./datasets/train.csv', header=False, schema=schema)
 test_df = spark.read.csv('./datasets/test.csv', header=False, schema=schema)
 
+# print(train_df.head(5))
 categorical_variables = ['workclass', 'education', 'marital-status',
                          'occupation', 'relationship', 'race', 'sex', 'native-country']
 indexers = [StringIndexer(inputCol=column, outputCol=column+"-index").setHandleInvalid("skip")
@@ -44,6 +45,8 @@ assembler = VectorAssembler(
 pipeline = Pipeline(stages=indexers + [encoder, assembler])
 train_df = pipeline.fit(train_df).transform(train_df)
 test_df = pipeline.fit(test_df).transform(test_df)
+
+print(train_df)
 
 # df = train_df.limit(5).toPandas()
 # df['scaled-categorical-features'][1]
