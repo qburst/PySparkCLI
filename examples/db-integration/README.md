@@ -1,10 +1,15 @@
 # DB Integration project
+
 This example is to showcase the NoSQL and SQL database integration. Please use the following details to setup corresponsing database. In the project we will adding data to a database name mydb, so after installing the database please create the corresponding db
+
+
 # Commands to install MongoDB
+
 #### Step 1: Import the public key used by the package management system.
 ```bash.
 wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
 ```
+
 #### Step 2: Create a list file for MongoDB
 ```bash
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
