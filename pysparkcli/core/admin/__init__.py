@@ -5,8 +5,6 @@ import shutil
 from jinja2 import Template
 from pathlib import Path
 
-from pyspark.sql import SparkSession
-
 
 class TemplateParser:
     rewrite_template_suffixes = ['.py-tpl', '.py']
@@ -57,13 +55,4 @@ class TemplateParser:
                 dest_fpath = final_path + "/" + i.name
                 os.makedirs(os.path.dirname(dest_fpath), exist_ok=True)
                 shutil.copy(i.as_posix(), dest_fpath)
-
-
-class SparkBuilder():
-
-    def __init__(self, name):
-        self.name = name
-
-    def build_sc(self):
-        return SparkSession.builder.master("local").appName("sample").getOrCreate()
 
