@@ -8,10 +8,10 @@ This is an example for PySpark Streaming.
 
 ## Run the project
 
-    Open a terminal nd type the following command:
+    * Open a terminal nd type the following command:
 
         pysparkcli stream dataframe_tweets twitter_stream - This will open up a listening port.
 
-    Open another terminal and enter the following command:
+    * Open another terminal and enter the following command:
 
         pysparkcli run dataframe_tweets - This will stream the tweets.
