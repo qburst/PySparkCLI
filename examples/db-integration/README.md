@@ -1,15 +1,10 @@
 # DB Integration project
-
 This example is to showcase the NoSQL and SQL database integration. Please use the following details to setup corresponsing database. In the project we will adding data to a database name mydb, so after installing the database please create the corresponding db
-
-
 # Commands to install MongoDB
-
 #### Step 1: Import the public key used by the package management system.
 ```bash.
 wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
 ```
-
 #### Step 2: Create a list file for MongoDB
 ```bash
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
@@ -34,13 +29,20 @@ mongo
 ```bash
 pip install mongoengine
 ```
+#### Step 8: Provide the connection string in src/database/nosql_db.py
+```python
+connect('dbName')
+```
+Note: <br/>
+    1. By default, MongoEngine assumes that the mongod instance is running on localhost on port 27017 when using above configuration<br/>
+    2. Refer Mongo Engine documentation for advance connection strings.
 ### Configuring SQLAlchemy for connecting Postges with PySpark
 #### Step 1: Install SQLAlchemy and psycopg2 using pip
 ```bash
 pip install SQLAlchemy
 pip install psycopg2
 ```
-#### Step 2: Configure variable 'engine' as shown below in sql_db.py
+#### Step 2: Configure variable 'engine' as shown below in src/database/sql_db.py
 ```python
 engine = create_engine('postgresql://Username:Password@dbHost/dbName')
 ```
