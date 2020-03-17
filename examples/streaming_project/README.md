@@ -8,7 +8,7 @@ This is an example for PySpark Streaming.
 
 ## Run the project
 
-    Open a terminal nd type the following command:
+    Open a terminal and type the following command:
 
         pysparkcli stream streaming_project twitter_stream - This will open up a listening port.
 
