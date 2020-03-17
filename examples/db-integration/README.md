@@ -51,10 +51,11 @@ pip install psycopg2
 ```python
 engine = create_engine('postgresql://Username:Password@dbHost/dbName')
 ```
-### Reference:
-https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
-
 #### Running the Project:
 ```python
 pysparkcli run db-integration
 ```
+### Reference:
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+
+
