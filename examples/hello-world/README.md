@@ -8,6 +8,6 @@ This is an example of a basic PySpark project.
 
 ## Run the project
 
-    * Open a terminal and type the following command:
+   * Open a terminal and type the following command:
 
-     pysparkcli run hello_world 
+    pysparkcli run hello_world 
