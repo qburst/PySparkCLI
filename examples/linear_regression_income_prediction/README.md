@@ -18,4 +18,4 @@ https://towardsdatascience.com/machine-learning-at-scale-with-apache-spark-mllib
 
 ## Note to Jino
 
-The last commented statement in app.py is throw StringIndexer encountered NULL value. Can we ignore this statment?
+The last commented statement in app.py is throwing StringIndexer encountered NULL value. Can we ignore this statment?
