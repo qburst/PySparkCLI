@@ -22,12 +22,6 @@ def main(sqlContext):
 
     company_df.describe().toPandas().transpose()
 
-
-    company_df.cache()
-    company_df.printSchema()
-
-    company_df.show(10)
-
     vectorAssembler = VectorAssembler(inputCols=['Rank', 'Number of Employees'], outputCol='features')
     tcompany_df = vectorAssembler.setHandleInvalid("keep").transform(company_df)
     tcompany_df = tcompany_df.select(['features', 'Number of Employees'])

@@ -1,6 +1,3 @@
-from pyspark.conf import SparkConf
-from pyspark.context import SparkContext
-
 from pyspark.sql import SparkSession
 from pyspark.ml.classification import LogisticRegression
 from pyspark.ml.feature import OneHotEncoderEstimator, StringIndexer, VectorAssembler
@@ -43,9 +40,8 @@ def getCsv():
     test_df.to_csv('test.csv', index=False, header=False)
 
 
-def main(sc):
+def main(spark):
     getCsv()
-    spark = SparkSession.builder.appName("Predict Adult Salary").getOrCreate()
 
     schema = StructType([
         StructField("age", IntegerType(), True),
@@ -67,8 +63,6 @@ def main(sc):
 
     train_df = spark.read.csv('train.csv', header=False, schema=schema)
     test_df = spark.read.csv('test.csv', header=False, schema=schema)
-
-    print(train_df.head(5))
 
     print(train_df.limit(5).toPandas())
 
@@ -117,10 +111,7 @@ def main(sc):
 
 if __name__ == "__main__":
     # Configure Spark Application
-    conf = SparkConf().setAppName("linear_regression_income_prediction")
-    conf = conf.setMaster("local[*]")
-    conf.set("spark.executor.cores", 2)
-    sc = SparkContext(conf=conf)
+    spark = SparkSession.builder.appName("linear_regression_income_prediction").getOrCreate()
 
     # Execute Main functionality
-    main(sc)
+    main(spark)
