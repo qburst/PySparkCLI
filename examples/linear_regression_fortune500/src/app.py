@@ -12,7 +12,7 @@ from pyspark.ml.regression import LinearRegression
 
 def main(sqlContext):
     company_df = sqlContext.read.format('com.databricks.spark.csv').options(header='true', inferschema='true').load(
-        './linear_regression_fortune500/src/InputData/Fortune_500.csv')
+        './linear_regression_fortune500/src/inputData/Fortune_500.csv')
     company_df = company_df.withColumn('Number of Employees', regexp_replace('Number of Employees', ',', ''))
     company_df = company_df.withColumn('Number of Employees', company_df['Number of Employees'].cast("int"))
     company_df.show(10)
