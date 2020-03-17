@@ -7,7 +7,6 @@ from pyspark.ml.feature import OneHotEncoderEstimator, StringIndexer, VectorAsse
 from pyspark.ml import Pipeline
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 import pandas as pd
-import os
 
 
 ## Supporting Functions
@@ -45,7 +44,6 @@ def getCsv():
 
 
 def main(sc):
-    print(os.getcwd())
     getCsv()
     spark = SparkSession.builder.appName("Predict Adult Salary").getOrCreate()
 
