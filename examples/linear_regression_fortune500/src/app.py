@@ -11,9 +11,6 @@ from pyspark.ml.regression import LinearRegression
 ## Core Spark Application Functionality
 
 def main(sqlContext):
-
-
-
     company_df = sqlContext.read.format('com.databricks.spark.csv').options(header='true', inferschema='true').load(
         './linear_regression_fortune500/src/InputData/Fortune_500.csv')
     company_df = company_df.withColumn('Number of Employees', regexp_replace('Number of Employees', ',', ''))
