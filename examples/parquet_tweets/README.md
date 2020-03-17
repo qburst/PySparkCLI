@@ -2,7 +2,7 @@
 
 #### Installation:
 ```python
-pip install pysparkcli
+pip install pyspark-cli
 ```
 
 #### Run the project:
