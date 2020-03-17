@@ -34,15 +34,28 @@ mongo
 ```bash
 pip install mongoengine
 ```
+#### Step 8: Provide the connection string in src/database/nosql_db.py
+```python
+connect('dbName')
+```
+Note: <br/>
+    1. By default, MongoEngine assumes that the mongod instance is running on localhost on port '27017' when using above configuration<br/>
+    2. Refer Mongo Engine documentation for advance connection strings.
 ### Configuring SQLAlchemy for connecting Postges with PySpark
 #### Step 1: Install SQLAlchemy and psycopg2 using pip
 ```bash
 pip install SQLAlchemy
 pip install psycopg2
 ```
-#### Step 2: Configure variable 'engine' as shown below in sql_db.py
+#### Step 2: Configure variable 'engine' as shown below in src/database/sql_db.py
 ```python
 engine = create_engine('postgresql://Username:Password@dbHost/dbName')
 ```
+#### Running the Project:
+```python
+pysparkcli run db-integration
+```
 ### Reference:
 https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+
+
