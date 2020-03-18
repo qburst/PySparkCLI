@@ -37,6 +37,21 @@ def main(sqlContext):
     print("Coefficients: " + str(lr_model.coefficients))
     print("Intercept: " + str(lr_model.intercept))
 
+    trainingSummary = lr_model.summary
+    print("RMSE on training data: %f" % trainingSummary.rootMeanSquaredError)
+    print("r2 on training data: %f" % trainingSummary.r2)
+
+    train_df.describe().show()
+
+    lr_predictions = lr_model.transform(test_df)
+    lr_predictions.select("prediction", "Number of Employees", "features").show()
+
+    test_result = lr_model.evaluate(test_df)
+    print("Root Mean Squared Error (RMSE) on test data = %g" % test_result.rootMeanSquaredError)
+
+    print("numIterations: %d" % trainingSummary.totalIterations)
+    print("objectiveHistory: %s" % str(trainingSummary.objectiveHistory))
+    trainingSummary.residuals.show()
 
 if __name__ == "__main__":
     # Configure Spark Application
