@@ -11,7 +11,6 @@ from sqlalchemy.orm import sessionmaker
 
 # The base class which our objects will be defined on.
 Base = declarative_base()
-connect(db="mydb2", alias='default', host='localhost:27017')
 
 class StreamData(Base):
     __tablename__ = 'StreamData'
@@ -51,19 +50,6 @@ def saveToDB(data):
     session.commit()
     return True
 
-class Tweet(Document):
-    user = StringField(required=True, max_length=200)
-    location = StringField(required=False, max_length=500)
-    meta = {'allow_inheritance': True}
-
-def saveToMongoDB(data):
-    data = loads(data)
-    user = data.get('user', {}).get('name', '--NA--')
-    location = data.get('user', {}).get('location', '--NA--')
-    tweet = Tweet(user=user, location=location)
-    tweet.save()
-    return True
-
 if __name__ == "__main__":
     sys.path.append(path.join(path.dirname(__file__), '..'))
     from configs import spark_config
@@ -87,7 +73,7 @@ if __name__ == "__main__":
     # data.pprint()
     # data = lines.map(lambda x: loads(x)).map(lambda result: saveToDB(result))
     session = getSession()
-    lines.foreachRDD(lambda rdd: rdd.filter(saveToMongoDB).coalesce(1).saveAsTextFile("./tweets/%f" % time.time()))
+    lines.foreachRDD(lambda rdd: rdd.filter(saveToDB).coalesce(1).saveAsTextFile("./tweets/%f" % time.time()))
     session.close()
     # You must start the Spark StreamingContext, and await process termination…
     ssc.start()
