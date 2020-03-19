@@ -1,4 +1,4 @@
-###Hello World Project - Project to print 'Hello World' in PySpark
+## Hello World Project - Project to print 'Hello World' in PySpark
 ### Installation:
 ```python
 pip install pyspark-cli
