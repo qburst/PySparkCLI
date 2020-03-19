@@ -3,8 +3,22 @@ import sys
 from json import loads
 from os import path
 from pyspark.storagelevel import StorageLevel
+from mongoengine import Document, StringField, connect
 
 from settings import default
+
+class TwitterData(Document):
+    text = StringField(required=True, max_length=200)
+    hashtags = StringField(required=True, max_length=1000)
+    meta = {'allow_inheritance': True}
+
+def saveMOngo(data):
+    connect('streamdb')
+    data = loads(data)
+    text = data.get('text', '--NA--')
+    hashtags = ' '.join(map(str, data.get('entities', {}).get('hashtags', ['--NA--'])))
+    etl = TwitterData(text=text, hashtags=hashtags)
+    etl.save()
 
 
 if __name__ == "__main__":
