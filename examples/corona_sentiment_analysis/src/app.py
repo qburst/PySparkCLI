@@ -1,26 +1,29 @@
 import time
 import sys
+from datetime import datetime
 from json import loads
 from os import path
-from pyspark.storagelevel import StorageLevel
-from mongoengine import Document, StringField, connect
+from mongoengine import DynamicDocument, StringField, connect, DateTimeField
 
 
-class TwitterData(Document):
+class TwitterData(DynamicDocument):
     text = StringField(required=True, max_length=200)
-    hashtags = StringField(required=True, max_length=1000)
+    created_at = DateTimeField(default=datetime.utcnow())
     meta = {'allow_inheritance': True}
 
 def saveMOngo(data):
     connect('streamdb')
     data = loads(data)
     text = data.get('text', '--NA--')
-    if not text.startswith("RT @"):
-        hashtagsText = ' '.join(map(str, data.get('entities', {}).get('hashtags', ['--NA--'])))
+
+    if not text.startswith("RT @") and filterKeyword(text) and "retweeted_status" not in data.keys():
         hashtags = data.get('entities', {}).get('hashtags', [])
         if filterHash(hashtags):
-            etl = TwitterData(text=text, hashtags=hashtagsText)
+            etl = TwitterData(text=text)
+            etl.hashtags = hashtags
+            etl.user = data.get('user')
             etl.save()
+
 
 def filterHash(hashtags):
     filterTags = ['COVID19', 'coronavirus', 'Corona', 'CoronaVirusUpdate']
@@ -29,6 +32,14 @@ def filterHash(hashtags):
             return True
     return False
 
+
+def filterKeyword(text):
+    textLower = text.lower()
+    keywords = ['infected', 'recovered', 'infect', 'recover', 'death', 'died', 'cases', 'case', 'toll', 'cure', 'vaccine', 'travel history']
+    for keyword in keywords:
+        if keyword in textLower:
+            return True
+    return False
 
 if __name__ == "__main__":
     sys.path.append(path.join(path.dirname(__file__), '..'))
