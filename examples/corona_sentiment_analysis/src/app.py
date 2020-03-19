@@ -5,7 +5,6 @@ from os import path
 from pyspark.storagelevel import StorageLevel
 from mongoengine import Document, StringField, connect
 
-from settings import default
 
 class TwitterData(Document):
     text = StringField(required=True, max_length=200)
@@ -16,9 +15,19 @@ def saveMOngo(data):
     connect('streamdb')
     data = loads(data)
     text = data.get('text', '--NA--')
-    hashtags = ' '.join(map(str, data.get('entities', {}).get('hashtags', ['--NA--'])))
-    etl = TwitterData(text=text, hashtags=hashtags)
-    etl.save()
+    if not text.startswith("RT @"):
+        hashtagsText = ' '.join(map(str, data.get('entities', {}).get('hashtags', ['--NA--'])))
+        hashtags = data.get('entities', {}).get('hashtags', [])
+        if filterHash(hashtags):
+            etl = TwitterData(text=text, hashtags=hashtagsText)
+            etl.save()
+
+def filterHash(hashtags):
+    filterTags = ['COVID19', 'coronavirus', 'Corona', 'CoronaVirusUpdate']
+    for hashtag in hashtags:
+        if hashtag.get("text") in filterTags:
+            return True
+    return False
 
 
 if __name__ == "__main__":
@@ -26,7 +35,7 @@ if __name__ == "__main__":
     from configs import spark_config
 
     ssc = spark_config.ssc
-    lines = ssc.socketTextStream(default.DATA_SOURCE, default.DATA_SOURCE_PORT)
+    lines = ssc.socketTextStream(spark_config.IP, spark_config.Port)
 
     # When your DStream in Spark receives data, it creates an RDD every batch interval.
     # We use coalesce(1) to be sure that the final filtered RDD has only one partition,
@@ -36,16 +45,14 @@ if __name__ == "__main__":
     # We use time.time() to make sure there is always a newly created directory, otherwise
     # it will throw an Exception.
 
-    if default.DEBUG:
-        lines.persist(StorageLevel.MEMORY_AND_DISK)
-
-    data = lines.map(lambda x: loads(x)).map(lambda result: {"user": result.get('user', {}).get('name', '--NA--'), "location": result.get('user', {}).get('location', '--NA--'), "text": result.get("text", "--NA--")})
-
-    data.saveAsTextFiles("./tweets/%f" % time.time())
-    
-    if default.DEBUG:
-        data.pprint()
-
+    # lines.persist(StorageLevel.MEMORY_AND_DISK)
+    #
+    # data = lines.map(lambda x: loads(x)).map(lambda result: {"user": result.get('user', {}).get('name', '--NA--'), "location": result.get('user', {}).get('location', '--NA--'), "text": result.get("text", "--NA--")})
+    #
+    # data.saveAsTextFiles("./tweets/%f" % time.time())
+    # data.pprint()
+    # data = lines.map(lambda x: loads(x)).map(lambda result: saveToDB(result))
+    lines.foreachRDD(lambda rdd: rdd.filter(saveMOngo).coalesce(1).saveAsTextFile("./tweets/%f" % time.time()))
     # You must start the Spark StreamingContext, and await process termination…
     ssc.start()
     ssc.awaitTermination()
