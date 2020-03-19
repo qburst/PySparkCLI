@@ -30,7 +30,7 @@ def sendData(c_socket):
     auth.set_access_token(stream_source_config.access_token, stream_source_config.access_secret)
 
     twitter_stream = Stream(auth, TweetsListener(c_socket))
-    twitter_stream.filter(track=['corona virus,coronavirus,covid19'])
+    twitter_stream.filter(track=['COVID19,coronavirus,coronavirusindia'])
 
 
 if __name__ == "__main__":
