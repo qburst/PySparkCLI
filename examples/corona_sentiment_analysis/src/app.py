@@ -4,7 +4,7 @@ from json import loads
 from os import path
 from mongoengine import connect
 
-from databaseModels.mongo_models import TwitterData
+from database_models.mongo_models import TwitterData
 from configs import spark_config
 from utils.constants import KEYWORDS, MANDATORY_HASHTAGS, \
     CATEGORIES, COUNTRIES, DB_NAME, INFECTED_KEYWORDS, RECOVERED_KEYWORDS, \
