@@ -97,9 +97,11 @@ sample
 
 8 directories, 15 files
 ```
-## PySparkCLI Demo
+## PySparkCLI Related Youtube Resources
 
-[![PySparkCLI Demo](https://img.youtube.com/vi/wuoBKJYSfTE/0.jpg)](https://www.youtube.com/watch?v=wuoBKJYSfTE)
+[![Quick Intro to PySpark](https://img.youtube.com/vi/_KFMDdJXDNI/0.jpg)](https://www.youtube.com/watch?v=_KFMDdJXDNI)
+
+[![PySparkCLI Demo](https://img.youtube.com/vi/qytXnjKmn9U/0.jpg)](https://www.youtube.com/watch?v=qytXnjKmn9U)
 
 ## Contribution Guidelines
 
