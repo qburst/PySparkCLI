@@ -66,4 +66,3 @@ class SparkBuilder():
 
     def build_sc(self):
         return SparkSession.builder.master("local").appName("sample").getOrCreate()
-
